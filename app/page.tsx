@@ -1,6 +1,5 @@
-"use client";
-
 import Link from "next/link";
+import QuoteForm from "@/components/QuoteForm";
 
 export default function Home() {
   return (
@@ -42,52 +41,7 @@ export default function Home() {
             className="rounded-2xl border border-gray-200 bg-gray-50 p-8 shadow"
           >
             <h2 className="mb-4 text-2xl font-semibold">Request a Quote</h2>
-            <form
-  className="grid gap-4"
-  onSubmit={async (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const res = await fetch("/api/quote", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: formData.get("name"),
-        email: formData.get("email"),
-        phone: formData.get("phone"),
-        service: formData.get("service"),
-        message: formData.get("message"),
-      }),
-    });
-
-    if (res.ok) {
-      alert("Thanks! We’ll be in touch shortly.");
-      form.reset();
-    } else {
-      alert("Something went wrong. Please try again.");
-    }
-  }}
->
-  <input name="name" type="text" placeholder="Full Name" className="rounded-lg border border-gray-300 p-3" required />
-  <input name="email" type="email" placeholder="Email" className="rounded-lg border border-gray-300 p-3" required />
-  <input name="phone" type="tel" placeholder="Phone" className="rounded-lg border border-gray-300 p-3" required />
-  <select name="service" className="rounded-lg border border-gray-300 p-3">
-    <option>Fence Repair</option>
-    <option>Vinyl Fence</option>
-    <option>Wood Fence</option>
-    <option>Chain Link Fence</option>
-    <option>Aluminum Fence</option>
-  </select>
-  <textarea name="message" placeholder="Brief description of the project" className="rounded-lg border border-gray-300 p-3" rows={4} />
-  <button
-  type="submit"
-  className="rounded-xl bg-black px-6 py-3 text-white hover:bg-gray-800"
-  onClick={() => console.log("Button clicked")}
->
-  Submit Request
-</button>
-</form>
+<QuoteForm />
 
           </div>
         </div>
