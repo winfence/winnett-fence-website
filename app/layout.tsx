@@ -1,7 +1,37 @@
-// Winnett Fence LLC Website // Next.js App Router — Homepage
+export const metadata = {
+  title: "Winnett Fence LLC | Quality Fence Repair You Can Trust",
+  description:
+    "Premium fence repair and installation serving Attleboro, MA and surrounding Massachusetts towns.",
+};
 
-// FILE STRUCTURE (create these files): // app/layout.tsx // app/page.tsx // app/globals.css
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <header className="header">
+          <div className="container">
+            <h1 className="logo">Winnett Fence LLC</h1>
+            <nav>
+              <a href="#services">Services</a>
+              <a href="#repairs">Repairs</a>
+              <a href="#contact">Get a Quote</a>
+            </nav>
+          </div>
+        </header>
 
-// ================================ // app/layout.tsx // ================================ export const metadata = { title: "Winnett Fence LLC | Quality Fence Repair You Can Trust", description: "Premium fence repair and installation serving Attleboro, MA and surrounding towns." }
+        {children}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) { return ( <html lang="en"> <body> <header className="header"> <div className="container"> <h1 className="logo">Winnett Fence LLC</h1> <nav> <a href="#services">Services</a> <a href="#repairs">Repairs</a> <a href="#contact">Get a Quote</a> </nav> </div> </header> {children} <footer className="footer"> <div className="container"> <p>© {new Date().getFullYear()} Winnett Fence LLC</p> <p>Quality Fence Repair You Can Trust.</p> </div> </footer> </body> </html> ) }
+        <footer className="footer">
+          <div className="container">
+            <p>© {new Date().getFullYear()} Winnett Fence LLC</p>
+            <p>Quality Fence Repair You Can Trust.</p>
+          </div>
+        </footer>
+      </body>
+    </html>
+  );
+}
