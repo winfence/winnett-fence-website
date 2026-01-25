@@ -7,41 +7,45 @@ export default function QuoteForm() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess(false);
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+  setSuccess(false);
 
-    const formData = new FormData(e.currentTarget);
+  const formData = new FormData(e.currentTarget);
 
-    const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      service: formData.get("service"),
-      message: formData.get("message"),
-    };
+  const payload = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+    service: formData.get("service"),
+    message: formData.get("message"),
+  };
 
-    try {
-      const res = await fetch("/api/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+  try {
+    const res = await fetch("/api/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
-      if (!res.ok) {
-        throw new Error("Failed to send");
-      }
+    const data = await res.json(); // 🔑 THIS IS THE KEY
 
-      setSuccess(true);
-      e.currentTarget.reset();
-    } catch (err) {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
+    if (!res.ok || !data.success) {
+      throw new Error("API error");
     }
+
+    setSuccess(true);
+    e.currentTarget.reset();
+  } catch (err) {
+    console.error(err);
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
   }
+}
+
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
