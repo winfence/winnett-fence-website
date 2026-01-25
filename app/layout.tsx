@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "Winnett Fence LLC | Quality Fence Repair You Can Trust",
   description:
