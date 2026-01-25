@@ -1,5 +1,5 @@
 import Link from "next/link";
-import QuoteForm from "@/components/QuoteForm";
+import QuoteForm from "./components/QuoteForm";
 
 export default function Home() {
   return (
