@@ -34,16 +34,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-
-          {/* Quote Form */}
-          <div
-            id="quote"
-            className="rounded-2xl border border-gray-200 bg-gray-50 p-8 shadow"
-          >
-            <h2 className="mb-4 text-2xl font-semibold">Request a Quote</h2>
-<QuoteForm />
-
-          </div>
+          <QuoteForm />
         </div>
       </section>
 
