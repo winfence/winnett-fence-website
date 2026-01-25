@@ -80,9 +80,13 @@ export default function Home() {
     <option>Aluminum Fence</option>
   </select>
   <textarea name="message" placeholder="Brief description of the project" className="rounded-lg border border-gray-300 p-3" rows={4} />
-  <button type="submit" className="rounded-xl bg-black px-6 py-3 text-white hover:bg-gray-800">
-    Submit Request
-  </button>
+  <button
+  type="submit"
+  className="rounded-xl bg-black px-6 py-3 text-white hover:bg-gray-800"
+  onClick={() => console.log("Button clicked")}
+>
+  Submit Request
+</button>
 </form>
 
           </div>
