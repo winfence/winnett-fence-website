@@ -91,4 +91,29 @@ export default function QuoteForm() {
           name="message"
           placeholder="Tell us about your project"
           rows={4}
-          className="w-full border rounde
+          className="w-full border rounded-lg px-4 py-3"
+        />
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-black text-white py-4 rounded-lg font-medium disabled:opacity-50"
+        >
+          {loading ? "Sending..." : "Request Quote"}
+        </button>
+
+        {success && (
+          <p className="text-green-600 text-sm text-center">
+            ✅ Request sent successfully!
+          </p>
+        )}
+
+        {error && (
+          <p className="text-red-600 text-sm text-center">
+            {error}
+          </p>
+        )}
+      </form>
+    </section>
+  );
+}
