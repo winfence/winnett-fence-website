@@ -1,105 +1,62 @@
-import Link from "next/link";
+// app/page.tsx
 import QuoteForm from "./components/QuoteForm";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-      {/* HERO */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+    <main>
+      {/* HERO SECTION */}
+      <section className="relative bg-neutral-950 text-white overflow-hidden">
+        {/* Background accent */}
+        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_20%,rgba(255,255,255,0.08),transparent)]" />
+
+        <div className="relative max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* LEFT: COPY */}
           <div>
-            <p className="mb-3 inline-block rounded-full bg-gray-100 px-4 py-1 text-sm font-medium">
-              Winnett Fence LLC · Est. 2023
-            </p>
-            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
-              Quality Fence Repair You Can Trust
+            <span className="inline-block mb-4 rounded-full border border-white/20 px-4 py-1 text-sm tracking-wide">
+              Serving Attleboro & Surrounding MA Towns
+            </span>
+
+            <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight mb-6">
+              Quality Fence Repair
+              <br />
+              You Can Trust
             </h1>
-            <p className="mb-8 max-w-xl text-lg text-gray-600">
-              Premium fence repair and installation serving Attleboro, MA and
-              surrounding Massachusetts towns. Fast response, honest pricing,
-              and craftsmanship that lasts.
+
+            <p className="text-lg text-neutral-300 max-w-xl mb-8">
+              Expert fence repairs and installations for homeowners who care about craftsmanship, durability, and doing it right the first time.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="#quote"
-                className="rounded-xl bg-black px-6 py-3 text-white shadow hover:bg-gray-800"
-              >
-                Get a Free Quote
-              </a>
-              <a
-                href="tel:8577029780"
-                className="rounded-xl border border-gray-300 px-6 py-3 text-gray-800 hover:bg-gray-50"
-              >
-                Call 857-702-9780
-              </a>
-            </div>
-          </div>
-          <QuoteForm />
-        </div>
-      </section>
 
-      {/* SERVICES */}
-      <section className="bg-gray-100 py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="mb-12 text-3xl font-bold">Our Services</h2>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                title: "Fence Repairs",
-                desc: "Post replacement, storm damage, sagging gates, and more.",
-                href: "/fence-repairs",
-              },
-              {
-                title: "Vinyl Fencing",
-                desc: "Low-maintenance, clean, and long-lasting fencing solutions.",
-                href: "/vinyl-fencing",
-              },
-              {
-                title: "Wood Fencing",
-                desc: "Classic New England style with quality materials.",
-                href: "/wood-fencing",
-              },
-              {
-                title: "Chain Link Fencing",
-                desc: "Durable, practical, and cost-effective installations.",
-                href: "/chain-link-fencing",
-              },
-              {
-                title: "Aluminum Fencing",
-                desc: "Elegant, strong, and maintenance-free fencing.",
-                href: "/aluminum-fencing",
-              },
-            ].map((s) => (
-              <Link
-                key={s.title}
-                href={s.href}
-                className="rounded-2xl bg-white p-6 shadow hover:shadow-md"
-              >
-                <h3 className="mb-2 text-xl font-semibold">{s.title}</h3>
-                <p className="text-gray-600">{s.desc}</p>
-              </Link>
-            ))}
+            <ul className="space-y-3 text-neutral-200">
+              <li>✔ Fence repair specialists</li>
+              <li>✔ Vinyl, wood, chain link & aluminum</li>
+              <li>✔ Local, licensed & insured</li>
+            </ul>
+          </div>
+
+          {/* RIGHT: FORM */}
+          <div className="lg:pl-8">
+            <QuoteForm />
           </div>
         </div>
       </section>
 
-      {/* SERVICE AREA */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <h2 className="mb-6 text-3xl font-bold">Service Area</h2>
-        <p className="mb-4 max-w-2xl text-gray-600">
-          We proudly serve Attleboro and surrounding Massachusetts towns within
-          a 20-mile radius.
-        </p>
-        <p className="text-gray-700">
-          Attleboro · North Attleboro · Mansfield · Norton · Wrentham · Plainville
-          · Seekonk · Rehoboth · Foxborough · Easton
-        </p>
+      {/* TRUST BAR */}
+      <section className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div>
+            <h3 className="font-semibold text-lg">Repair-Focused</h3>
+            <p className="text-gray-600 mt-2">We specialize in fixing fences — not just replacing them.</p>
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg">Straightforward Pricing</h3>
+            <p className="text-gray-600 mt-2">Honest recommendations and fair, transparent quotes.</p>
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg">Local & Reliable</h3>
+            <p className="text-gray-600 mt-2">Proudly serving Attleboro-area homeowners.</p>
+          </div>
+        </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-gray-200 py-8 text-center text-sm text-gray-600">
-        © {new Date().getFullYear()} Winnett Fence LLC · Attleboro, MA
-      </footer>
     </main>
   );
 }
