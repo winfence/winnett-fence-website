@@ -33,13 +33,6 @@ export default function Home() {
 
             {/* RIGHT: FORM */}
             <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-zinc-900">
-              <h2 className="text-2xl font-semibold mb-2">
-                Get a Free Fence Quote
-              </h2>
-              <p className="text-sm text-zinc-600 mb-6">
-                Quick response. No pressure.
-              </p>
-
               <QuoteForm />
             </div>
 
