@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-  from: "Winnett Fence <onboarding@resend.dev>",
+  from: "Winnett Fence <leads@winnettoutdoor.services>",
   to: ["robert@winnettoutdoor.services"],
   subject: "New Fence Quote Request",
   html: `
