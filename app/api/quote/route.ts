@@ -13,18 +13,18 @@ export async function POST(req: Request) {
     }
 
     await resend.emails.send({
-      from: "Winnett Fence <leads@winnettoutdoor.services>",
-      to: ["robert@winnettoutdoor.services"],
-      subject: "New Fence Quote Request",
-      html: `
-        <h2>New Quote Request</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Service:</strong> ${service}</p>
-        <p><strong>Message:</strong><br/>${message || "(none)"}</p>
-      `,
-    });
+  from: "Winnett Fence <onboarding@resend.dev>",
+  to: ["robert@winnettoutdoor.services"],
+  subject: "New Fence Quote Request",
+  html: `
+    <h2>New Quote Request</h2>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Phone:</strong> ${phone}</p>
+    <p><strong>Service:</strong> ${service}</p>
+    <p><strong>Message:</strong><br/>${message || "(none)"}</p>
+  `,
+});
 
     return NextResponse.json({ success: true });
   } catch (error) {
