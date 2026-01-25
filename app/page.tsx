@@ -1,62 +1,63 @@
-// app/page.tsx
-import QuoteForm from "./components/QuoteForm";
+import QuoteForm from "@/components/QuoteForm"
 
-export default function HomePage() {
+export default function Home() {
   return (
     <main>
-      {/* HERO SECTION */}
-      <section className="relative bg-neutral-950 text-white overflow-hidden">
-        {/* Background accent */}
-        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_20%,rgba(255,255,255,0.08),transparent)]" />
+      {/* HERO */}
+      <section className="bg-zinc-900 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-20">
+          <div className="grid gap-12 lg:grid-cols-2 items-center">
 
-        <div className="relative max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* LEFT: COPY */}
-          <div>
-            <span className="inline-block mb-4 rounded-full border border-white/20 px-4 py-1 text-sm tracking-wide">
-              Serving Attleboro & Surrounding MA Towns
-            </span>
+            {/* LEFT: COPY */}
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+                Residential Fence Installation & Repairs in Southern Massachusetts
+              </h1>
 
-            <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold leading-tight mb-6">
-              Quality Fence Repair
-              <br />
-              You Can Trust
-            </h1>
+              <p className="mt-5 text-lg text-zinc-300 max-w-xl">
+                Vinyl, wood, chain-link & aluminum fencing — installed right,
+                repaired fast, and built to last.
+              </p>
 
-            <p className="text-lg text-neutral-300 max-w-xl mb-8">
-              Expert fence repairs and installations for homeowners who care about craftsmanship, durability, and doing it right the first time.
-            </p>
+              <ul className="mt-6 space-y-3 text-zinc-200">
+                <li>✅ Free on-site estimates</li>
+                <li>✅ Licensed & insured</li>
+                <li>✅ Repairs, replacements & new installs</li>
+                <li>✅ Owner-operated — no subcontractors</li>
+              </ul>
 
-            <ul className="space-y-3 text-neutral-200">
-              <li>✔ Fence repair specialists</li>
-              <li>✔ Vinyl, wood, chain link & aluminum</li>
-              <li>✔ Local, licensed & insured</li>
-            </ul>
-          </div>
+              <p className="mt-6 text-sm text-zinc-400">
+                Serving Attleboro, Mansfield, Norton, North Attleboro & nearby towns
+              </p>
+            </div>
 
-          {/* RIGHT: FORM */}
-          <div className="lg:pl-8">
-            <QuoteForm />
+            {/* RIGHT: FORM */}
+            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-zinc-900">
+              <h2 className="text-2xl font-semibold mb-2">
+                Get a Free Fence Quote
+              </h2>
+              <p className="text-sm text-zinc-600 mb-6">
+                Quick response. No pressure.
+              </p>
+
+              <QuoteForm />
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* TRUST BAR */}
-      <section className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div>
-            <h3 className="font-semibold text-lg">Repair-Focused</h3>
-            <p className="text-gray-600 mt-2">We specialize in fixing fences — not just replacing them.</p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg">Straightforward Pricing</h3>
-            <p className="text-gray-600 mt-2">Honest recommendations and fair, transparent quotes.</p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg">Local & Reliable</h3>
-            <p className="text-gray-600 mt-2">Proudly serving Attleboro-area homeowners.</p>
+      <section className="bg-zinc-100 border-t">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm font-medium">
+            <div>Locally Owned</div>
+            <div>Fast Turnaround</div>
+            <div>Quality Materials</div>
+            <div>Free Estimates</div>
           </div>
         </div>
       </section>
     </main>
-  );
+  )
 }
