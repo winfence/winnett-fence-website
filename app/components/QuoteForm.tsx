@@ -113,7 +113,7 @@ export default function QuoteForm() {
 
           <p className="mt-3 text-xs text-center text-zinc-600">
             Prefer to talk? Call{" "}
-            <span className="font-medium">(508) XXX-XXXX</span>
+            <span className="font-medium">(857) 702-9780</span>
           </p>
         </div>
 
