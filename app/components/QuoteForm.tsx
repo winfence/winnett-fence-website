@@ -47,7 +47,7 @@ export default function QuoteForm() {
   }
 
   return (
-    <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
+    <section id="quote" className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto scroll-mt-24" >
       <h2 className="text-2xl font-semibold mb-2">
         Get a Free Fence Estimate
       </h2>
