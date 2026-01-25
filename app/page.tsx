@@ -58,7 +58,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-zinc-50 py-20">
+<section className="bg-zinc-50 py-20">
   <div className="max-w-7xl mx-auto px-6">
     
     <h2 className="text-3xl font-bold text-center">
@@ -73,55 +73,63 @@ export default function Home() {
 
       {/* Repairs */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-xl font-semibold">Fence Repairs</h3>
+        <div className="text-3xl">🛠️</div>
+        <h3 className="mt-3 text-xl font-semibold">Fence Repairs</h3>
         <p className="mt-2 text-zinc-600">
           Broken posts, leaning sections, sagging gates, and storm damage.
         </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600">
+        <a
+          href="#quote"
+          className="inline-block mt-4 font-medium text-emerald-600 hover:underline"
+        >
           Request Free Estimate →
         </a>
       </div>
 
       {/* Vinyl */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-xl font-semibold">Vinyl Fence Installation</h3>
+        <div className="text-3xl">🧱</div>
+        <h3 className="mt-3 text-xl font-semibold">Vinyl Fence Installation</h3>
         <p className="mt-2 text-zinc-600">
           Clean, durable, and low-maintenance fencing.
         </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600">
+        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
           Request Free Estimate →
         </a>
       </div>
 
       {/* Wood */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-xl font-semibold">Wood Fence Installation</h3>
+        <div className="text-3xl">🌲</div>
+        <h3 className="mt-3 text-xl font-semibold">Wood Fence Installation</h3>
         <p className="mt-2 text-zinc-600">
           Privacy and classic New England style.
         </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600">
+        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
           Request Free Estimate →
         </a>
       </div>
 
       {/* Chain Link */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-xl font-semibold">Chain-Link Fence</h3>
+        <div className="text-3xl">🔗</div>
+        <h3 className="mt-3 text-xl font-semibold">Chain-Link Fence</h3>
         <p className="mt-2 text-zinc-600">
           Affordable, durable, and practical fencing.
         </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600">
+        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
           Request Free Estimate →
         </a>
       </div>
 
       {/* Aluminum */}
       <div className="bg-white p-6 rounded-xl shadow">
-        <h3 className="text-xl font-semibold">Aluminum Fence</h3>
+        <div className="text-3xl">🏗️</div>
+        <h3 className="mt-3 text-xl font-semibold">Aluminum Fence</h3>
         <p className="mt-2 text-zinc-600">
           Decorative fencing with strength and longevity.
         </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600">
+        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
           Request Free Estimate →
         </a>
       </div>
