@@ -55,4 +55,11 @@ export default function AttleboroCityPage() {
 
         <Link
           href="/#quote"
-          className="inline-block bg-black text-white px-8 py-4 rounded-xl font-semi
+          className="inline-block bg-black text-white px-8 py-4 rounded-xl font-semibold hover:bg-gray-900 transition"
+        >
+          Get Free Estimate
+        </Link>
+      </div>
+    </section>
+  );
+}
