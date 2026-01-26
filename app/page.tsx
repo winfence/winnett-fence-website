@@ -1,5 +1,6 @@
 import QuoteForm from "./components/QuoteForm"
 import ServicesSection from "./components/ServicesSection";
+import WhyChooseSection from "./components/WhyChooseSection";
 
 export default function Home() {
   return (
@@ -53,66 +54,7 @@ export default function Home() {
         </div>
       </section>
       <ServicesSection />
-
-      <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-6">
-      
-          <h2 className="text-3xl font-bold text-center">
-            Why Homeowners Choose Winnett Fence
-          </h2>
-      
-          <p className="mt-4 text-center text-zinc-600 max-w-2xl mx-auto">
-            Straightforward service from a local fence contractor you can trust.
-          </p>
-      
-          <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 text-center">
-      
-            <div>
-              <div className="text-4xl">🏠</div>
-              <h3 className="mt-4 font-semibold">Local & Owner-Operated</h3>
-              <p className="mt-2 text-sm text-zinc-600">
-                You deal directly with the owner — no subcontractors, no runaround.
-              </p>
-            </div>
-      
-            <div>
-              <div className="text-4xl">🛠️</div>
-              <h3 className="mt-4 font-semibold">Repairs Welcome</h3>
-              <p className="mt-2 text-sm text-zinc-600">
-                From small fixes to full replacements, we don’t turn jobs away.
-              </p>
-            </div>
-      
-            <div>
-              <div className="text-4xl">🧱</div>
-              <h3 className="mt-4 font-semibold">Built to Last</h3>
-              <p className="mt-2 text-sm text-zinc-600">
-                Quality materials and clean installs that hold up over time.
-              </p>
-            </div>
-      
-            <div>
-              <div className="text-4xl">📞</div>
-              <h3 className="mt-4 font-semibold">Fast, Clear Communication</h3>
-              <p className="mt-2 text-sm text-zinc-600">
-                Quick responses, clear pricing, and no pressure.
-              </p>
-            </div>
-      
-          </div>
-      
-          {/* CTA */}
-          <div className="mt-16 text-center">
-            <a
-              href="#quote"
-              className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-4 rounded-lg transition"
-            >
-              Request Free Estimate
-            </a>
-          </div>
-      
-        </div>
-      </section>
+      <WhyChooseSection />
     </main>
   )
 }
