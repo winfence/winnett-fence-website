@@ -15,7 +15,7 @@ const towns = [
 
 export default function ServiceAreaSection() {
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="areas" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-10">
           <Map className="h-10 w-10 mx-auto mb-4 text-black" />
