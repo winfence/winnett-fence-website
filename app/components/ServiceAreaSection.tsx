@@ -16,7 +16,7 @@ const towns = [
   { name: "North Attleboro" },
   { name: "Mansfield", slug: "/areas/mansfield-ma" },
   { name: "Norton", slug: "/areas/norton-ma" },
-  { name: "Foxborough" },
+  { name: "Foxborough",slug: "/areas/foxborough-ma" },
   { name: "Wrentham" },
   { name: "Plainville" },
   { name: "Seekonk" },
