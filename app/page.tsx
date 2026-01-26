@@ -1,4 +1,5 @@
 import QuoteForm from "./components/QuoteForm"
+import ServicesSection from "./components/ServicesSection";
 
 export default function Home() {
   return (
@@ -51,144 +52,67 @@ export default function Home() {
           </div>
         </div>
       </section>
-<section className="bg-zinc-50 py-20">
-  <div className="max-w-7xl mx-auto px-6">
-    
-    <h2 className="text-3xl font-bold text-center">
-      Fence Installation & Repair Services
-    </h2>
+      <ServicesSection />
 
-    <p className="mt-4 text-center text-zinc-600 max-w-2xl mx-auto">
-      Residential fencing services across Southern Massachusetts.
-    </p>
-
-    <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-
-      {/* Repairs */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <div className="text-3xl">🛠️</div>
-        <h3 className="mt-3 text-xl font-semibold">Fence Repairs</h3>
-        <p className="mt-2 text-zinc-600">
-          Broken posts, leaning sections, sagging gates, and storm damage.
-        </p>
-        <a
-          href="#quote"
-          className="inline-block mt-4 font-medium text-emerald-600 hover:underline"
-        >
-          Request Free Estimate →
-        </a>
-      </div>
-
-      {/* Vinyl */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <div className="text-3xl">🧱</div>
-        <h3 className="mt-3 text-xl font-semibold">Vinyl Fence Installation</h3>
-        <p className="mt-2 text-zinc-600">
-          Clean, durable, and low-maintenance fencing.
-        </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
-          Request Free Estimate →
-        </a>
-      </div>
-
-      {/* Wood */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <div className="text-3xl">🌲</div>
-        <h3 className="mt-3 text-xl font-semibold">Wood Fence Installation</h3>
-        <p className="mt-2 text-zinc-600">
-          Privacy and classic New England style.
-        </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
-          Request Free Estimate →
-        </a>
-      </div>
-
-      {/* Chain Link */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <div className="text-3xl">🔗</div>
-        <h3 className="mt-3 text-xl font-semibold">Chain-Link Fence</h3>
-        <p className="mt-2 text-zinc-600">
-          Affordable, durable, and practical fencing.
-        </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
-          Request Free Estimate →
-        </a>
-      </div>
-
-      {/* Aluminum */}
-      <div className="bg-white p-6 rounded-xl shadow">
-        <div className="text-3xl">🏗️</div>
-        <h3 className="mt-3 text-xl font-semibold">Aluminum Fence</h3>
-        <p className="mt-2 text-zinc-600">
-          Decorative fencing with strength and longevity.
-        </p>
-        <a href="#quote" className="inline-block mt-4 font-medium text-emerald-600 hover:underline">
-          Request Free Estimate →
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
-<section className="bg-white py-20">
-  <div className="max-w-7xl mx-auto px-6">
-
-    <h2 className="text-3xl font-bold text-center">
-      Why Homeowners Choose Winnett Fence
-    </h2>
-
-    <p className="mt-4 text-center text-zinc-600 max-w-2xl mx-auto">
-      Straightforward service from a local fence contractor you can trust.
-    </p>
-
-    <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 text-center">
-
-      <div>
-        <div className="text-4xl">🏠</div>
-        <h3 className="mt-4 font-semibold">Local & Owner-Operated</h3>
-        <p className="mt-2 text-sm text-zinc-600">
-          You deal directly with the owner — no subcontractors, no runaround.
-        </p>
-      </div>
-
-      <div>
-        <div className="text-4xl">🛠️</div>
-        <h3 className="mt-4 font-semibold">Repairs Welcome</h3>
-        <p className="mt-2 text-sm text-zinc-600">
-          From small fixes to full replacements, we don’t turn jobs away.
-        </p>
-      </div>
-
-      <div>
-        <div className="text-4xl">🧱</div>
-        <h3 className="mt-4 font-semibold">Built to Last</h3>
-        <p className="mt-2 text-sm text-zinc-600">
-          Quality materials and clean installs that hold up over time.
-        </p>
-      </div>
-
-      <div>
-        <div className="text-4xl">📞</div>
-        <h3 className="mt-4 font-semibold">Fast, Clear Communication</h3>
-        <p className="mt-2 text-sm text-zinc-600">
-          Quick responses, clear pricing, and no pressure.
-        </p>
-      </div>
-
-    </div>
-
-    {/* CTA */}
-    <div className="mt-16 text-center">
-      <a
-        href="#quote"
-        className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-4 rounded-lg transition"
-      >
-        Request Free Estimate
-      </a>
-    </div>
-
-  </div>
-</section>
+      <section className="bg-white py-20">
+        <div className="max-w-7xl mx-auto px-6">
+      
+          <h2 className="text-3xl font-bold text-center">
+            Why Homeowners Choose Winnett Fence
+          </h2>
+      
+          <p className="mt-4 text-center text-zinc-600 max-w-2xl mx-auto">
+            Straightforward service from a local fence contractor you can trust.
+          </p>
+      
+          <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 text-center">
+      
+            <div>
+              <div className="text-4xl">🏠</div>
+              <h3 className="mt-4 font-semibold">Local & Owner-Operated</h3>
+              <p className="mt-2 text-sm text-zinc-600">
+                You deal directly with the owner — no subcontractors, no runaround.
+              </p>
+            </div>
+      
+            <div>
+              <div className="text-4xl">🛠️</div>
+              <h3 className="mt-4 font-semibold">Repairs Welcome</h3>
+              <p className="mt-2 text-sm text-zinc-600">
+                From small fixes to full replacements, we don’t turn jobs away.
+              </p>
+            </div>
+      
+            <div>
+              <div className="text-4xl">🧱</div>
+              <h3 className="mt-4 font-semibold">Built to Last</h3>
+              <p className="mt-2 text-sm text-zinc-600">
+                Quality materials and clean installs that hold up over time.
+              </p>
+            </div>
+      
+            <div>
+              <div className="text-4xl">📞</div>
+              <h3 className="mt-4 font-semibold">Fast, Clear Communication</h3>
+              <p className="mt-2 text-sm text-zinc-600">
+                Quick responses, clear pricing, and no pressure.
+              </p>
+            </div>
+      
+          </div>
+      
+          {/* CTA */}
+          <div className="mt-16 text-center">
+            <a
+              href="#quote"
+              className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-4 rounded-lg transition"
+            >
+              Request Free Estimate
+            </a>
+          </div>
+      
+        </div>
+      </section>
     </main>
   )
 }
