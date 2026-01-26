@@ -2,6 +2,7 @@ import QuoteForm from "./components/QuoteForm"
 import ServicesSection from "./components/ServicesSection";
 import WhyChooseSection from "./components/WhyChooseSection";
 import ServiceAreaSection from "./components/ServiceAreaSection";
+import FinalCTASection from "./components/FinalCTASection";
 
 export default function Home() {
   return (
@@ -57,6 +58,7 @@ export default function Home() {
       <ServicesSection />
       <WhyChooseSection />
       <ServiceAreaSection />
+      <FinalCTASection />
     </main>
   )
 }
