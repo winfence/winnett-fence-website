@@ -1,4 +1,5 @@
 import "./globals.css";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 export const metadata = {
@@ -15,19 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="header">
-          <div className="container">
-            <h1 className="logo">Winnett Fence LLC</h1>
-            <nav>
-              <a href="#services">Services</a>
-              <a href="#repairs">Repairs</a>
-              <a href="#contact">Get a Quote</a>
-            </nav>
-          </div>
-        </header>
-
+        <Header />
         {children}
-       <Footer />
+        <Footer />
       </body>
     </html>
   );
