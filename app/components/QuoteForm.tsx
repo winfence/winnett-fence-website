@@ -31,11 +31,13 @@ export default function QuoteForm() {
       });
 
       const data = await res.json();
-
+      
       if (!res.ok || !data.success) {
-        throw new Error("API error");
+        throw new Error(data?.error || "API error");
       }
 
+      // ✅ success path
+      setError("");        // ← force-clear any old errors
       setSuccess(true);
       e.currentTarget.reset();
     } catch (err) {
