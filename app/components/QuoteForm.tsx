@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function QuoteForm() {
   const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  // ✅ Redirect AFTER success (safe + reliable)
+  useEffect(() => {
+    if (!success) return;
+
+    const timer = setTimeout(() => {
+      router.push("/thank-you");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [success, router]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -15,7 +27,8 @@ export default function QuoteForm() {
     setError("");
     setSuccess(false);
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
     const payload = {
       name: formData.get("name"),
@@ -33,19 +46,15 @@ export default function QuoteForm() {
       });
 
       const data = await res.json();
-      
+
       if (!res.ok || !data.success) {
         throw new Error(data?.error || "API error");
       }
 
       // ✅ success path
-      setError("");        // ← force-clear any old errors
+      setError("");
       setSuccess(true);
-      e.currentTarget.reset()
-     // ⏳ brief pause, then redirect
-     setTimeout(() => {
-        router.push("/thank-you");
-      }, 2000);;
+      form.reset();
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
@@ -55,20 +64,20 @@ export default function QuoteForm() {
   }
 
   return (
-    <section id="quote" className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto scroll-mt-24" >
+    <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
       <h2 className="text-2xl font-semibold mb-2">
-        Get a Free Fence Estimate
+        Request a Free Quote
       </h2>
 
-      <p className="text-zinc-600 mb-6">
-        Fast, reliable fence installation & repairs.
+      <p className="text-gray-600 mb-6">
+        Quality fence repair & installation you can trust.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           name="name"
           required
-          placeholder="Your Name"
+          placeholder="Name"
           className="w-full border rounded-lg px-4 py-3"
         />
 
@@ -76,14 +85,14 @@ export default function QuoteForm() {
           name="email"
           type="email"
           required
-          placeholder="Email Address"
+          placeholder="Email"
           className="w-full border rounded-lg px-4 py-3"
         />
 
         <input
           name="phone"
           required
-          placeholder="Phone Number"
+          placeholder="Phone"
           className="w-full border rounded-lg px-4 py-3"
         />
 
@@ -100,38 +109,27 @@ export default function QuoteForm() {
 
         <textarea
           name="message"
-          placeholder="Briefly describe your project"
+          placeholder="Tell us about your project"
           rows={4}
           className="w-full border rounded-lg px-4 py-3"
         />
 
-        {/* CTA SECTION */}
-        <div className="mt-6">
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg font-semibold transition disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-          >
-            {loading ? "Sending..." : "Request Free Estimate"}
-          </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-black text-white py-4 rounded-lg font-medium disabled:opacity-50"
+        >
+          {loading ? "Sending..." : "Request Quote"}
+        </button>
 
-          <p className="mt-2 text-xs text-center text-zinc-500">
-            No obligation • Fast response
-          </p>
-
-          <p className="mt-3 text-xs text-center text-zinc-600">
-            Prefer to talk? Call{" "}
-            <span className="font-medium">(857) 702-9780</span>
-          </p>
-        </div>
-
+        {/* ✅ Mutually exclusive feedback */}
         {success ? (
           <p className="text-green-600 text-sm text-center">
-            ✅ Request sent successfully!
+            ✅ Request sent! Redirecting…
           </p>
         ) : error ? (
           <p className="text-red-600 text-sm text-center">
-          {error}
+            {error}
           </p>
         ) : null}
       </form>
