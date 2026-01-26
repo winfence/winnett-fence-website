@@ -1,6 +1,7 @@
 import QuoteForm from "./components/QuoteForm"
 import ServicesSection from "./components/ServicesSection";
 import WhyChooseSection from "./components/WhyChooseSection";
+import ServiceAreaSection from "./components/ServiceAreaSection";
 
 export default function Home() {
   return (
@@ -55,6 +56,7 @@ export default function Home() {
       </section>
       <ServicesSection />
       <WhyChooseSection />
+      <ServiceAreaSection />
     </main>
   )
 }
