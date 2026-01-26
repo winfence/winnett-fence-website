@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Map } from "lucide-react";
 
 const towns = [
