@@ -59,7 +59,7 @@ export default function Footer() {
               <li>Attleboro, MA</li>
               <li>
                 <a
-                  href="tel:15085551234"
+                  href="tel:18577029780"
                   className="hover:text-white"
                 >
                   (508) 555-1234
