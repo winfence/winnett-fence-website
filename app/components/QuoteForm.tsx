@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+const router = useRouter();
 
 export default function QuoteForm() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +42,11 @@ export default function QuoteForm() {
       // ✅ success path
       setError("");        // ← force-clear any old errors
       setSuccess(true);
-      e.currentTarget.reset();
+      e.currentTarget.reset()
+     // ⏳ brief pause, then redirect
+     setTimeout(() => {
+        router.push("/thank-you");
+      }, 2000);;
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again.");
