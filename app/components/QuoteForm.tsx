@@ -119,17 +119,15 @@ export default function QuoteForm() {
           </p>
         </div>
 
-        {success && (
+        {success ? (
           <p className="text-green-600 text-sm text-center">
             ✅ Request sent successfully!
           </p>
-        )}
-
-        {error && (
+        ) : error ? (
           <p className="text-red-600 text-sm text-center">
-            {error}
+          {error}
           </p>
-        )}
+        ) : null}
       </form>
     </section>
   );
