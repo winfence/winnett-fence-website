@@ -36,7 +36,7 @@ export default function ThankYouPage() {
           </Link>
 
           <a
-            href="tel:15085551234"
+            href="tel:18577029780"
             className="inline-flex justify-center items-center border border-gray-300 px-6 py-3 rounded-xl font-medium hover:bg-gray-100 transition"
           >
             Call Us Now
