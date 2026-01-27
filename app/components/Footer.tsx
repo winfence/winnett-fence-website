@@ -62,7 +62,7 @@ export default function Footer() {
                   href="tel:18577029780"
                   className="hover:text-white"
                 >
-                  (508) 555-1234
+                  (857) 702-9780
                 </a>
               </li>
               <li>
