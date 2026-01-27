@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.winnettoutdoor.services";
+  const baseUrl = "https://www.winnettfence.com";
+  const now = new Date();
 
   return [
+    // Homepage
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
     },
@@ -14,49 +16,79 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Services
     {
       url: `${baseUrl}/services/fence-repair`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/vinyl-fence`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/wood-fence`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/chain-link-fence`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/aluminum-fence`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.8,
     },
 
-    // City pages
+    // City / Service Area Pages (ALL)
     {
       url: `${baseUrl}/areas/attleboro-ma`,
-      lastModified: new Date(),
+      lastModified: now,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/areas/north-attleboro-ma`,
+      lastModified: now,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/mansfield-ma`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/norton-ma`,
-      lastModified: new Date(),
+      lastModified: now,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/foxborough-ma`,
-      lastModified: new Date(),
+      lastModified: now,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/areas/wrentham-ma`,
+      lastModified: now,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/areas/plainville-ma`,
+      lastModified: now,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/areas/seekonk-ma`,
+      lastModified: now,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/areas/rehoboth-ma`,
+      lastModified: now,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/areas/easton-ma`,
+      lastModified: now,
       priority: 0.7,
     },
   ];
