@@ -3,15 +3,15 @@ import { Map } from "lucide-react";
 
 const towns = [
   { name: "Attleboro", slug: "/areas/attleboro-ma" },
-  { name: "North Attleboro" },
+  { name: "North Attleboro", slug: "/areas/north-attleboro-ma" },
   { name: "Mansfield", slug: "/areas/mansfield-ma" },
   { name: "Norton", slug: "/areas/norton-ma" },
-  { name: "Foxborough",slug: "/areas/foxborough-ma" },
-  { name: "Wrentham" },
-  { name: "Plainville" },
-  { name: "Seekonk" },
-  { name: "Rehoboth" },
-  { name: "Easton" },
+  { name: "Foxborough", slug: "/areas/foxborough-ma" },
+  { name: "Wrentham", slug: "/areas/wrentham-ma" },
+  { name: "Plainville", slug: "/areas/plainville-ma" },
+  { name: "Seekonk", slug: "/areas/seekonk-ma" },
+  { name: "Rehoboth", slug: "/areas/rehoboth-ma" },
+  { name: "Easton", slug: "/areas/easton-ma" },
 ];
 
 export default function ServiceAreaSection() {
@@ -36,20 +36,14 @@ export default function ServiceAreaSection() {
           {towns.map((town) => (
             <li
               key={town.name}
-              className="bg-white rounded-xl py-4 px-2 text-sm font-medium shadow-sm"
+              className="bg-white rounded-xl py-4 px-2 text-sm font-medium shadow-sm hover:shadow-md transition"
             >
-              {town.slug ? (
-                <Link
-                  href={town.slug}
-                  className="hover:underline hover:text-black"
-                >
-                  {town.name}, MA
-                </Link>
-              ) : (
-                <span className="text-gray-800">
-                  {town.name}, MA
-                </span>
-              )}
+              <Link
+                href={town.slug}
+                className="hover:underline hover:text-black"
+              >
+                {town.name}, MA
+              </Link>
             </li>
           ))}
         </ul>
