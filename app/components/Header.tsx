@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image"
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo / Brand */}
-        <Link href="/" className="text-xl font-bold text-black">
+         <Link href="/" className="text-xl font-bold text-black">
+          <Image
+            src="/images/logo/winnett-fence-logo-header.png"
+            alt="Winnett Fence"
+            width={220}
+            height={80}
+            priority
+          />
           Winnett Fence
         </Link>
 
