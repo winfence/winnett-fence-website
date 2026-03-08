@@ -12,11 +12,10 @@ export default function Header() {
           <Image
             src="/images/logo/winnett-fence-logo-header.png"
             alt="Winnett Fence"
-            width={220}
-            height={80}
+            width={165}
+            height={60}
             priority
           />
-          Winnett Fence
         </Link>
 
         {/* Navigation */}
