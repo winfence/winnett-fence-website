@@ -29,6 +29,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <LocalBusinessSchema />
+        <link rel="icon" href="/images/logo/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" href="/images/logo/favicon-32.png" sizes="32x32" />
       </head>
       <body>
         <Header />
