@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -7,9 +8,13 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-3">
-              Winnett Fence
-            </h3>
+           <Image
+            src="/images/logo/winnett-fence-logo-dark.png"
+            alt="Winnett Fence"
+            width={200}
+            height={70}
+            className="mx-auto mb-6"
+            />
             <p className="text-sm leading-relaxed">
               Professional fence installation and repair services across
               Southeastern Massachusetts. Quality workmanship you can trust.
