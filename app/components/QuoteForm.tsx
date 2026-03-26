@@ -1,16 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+
+declare global {
+  interface Window {
+    google?: typeof google;
+  }
+}
 
 export default function QuoteForm() {
   const router = useRouter();
+  const addressInputRef = useRef<HTMLInputElement | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [address, setAddress] = useState("");
 
-  // ✅ Redirect AFTER success (safe + reliable)
   useEffect(() => {
     if (!success) return;
 
@@ -21,8 +28,34 @@ export default function QuoteForm() {
     return () => clearTimeout(timer);
   }, [success, router]);
 
+  useEffect(() => {
+    if (!window.google || !addressInputRef.current) return;
+
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      addressInputRef.current,
+      {
+        types: ["address"],
+        componentRestrictions: { country: "us" },
+        fields: ["formatted_address", "address_components", "geometry"],
+      }
+    );
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      const formatted = place.formatted_address || addressInputRef.current?.value || "";
+      setAddress(formatted);
+    });
+
+    return () => {
+      window.google.maps.event.clearInstanceListeners(autocomplete);
+    };
+  }, []);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (loading) return;
+
     setLoading(true);
     setError("");
     setSuccess(false);
@@ -34,6 +67,7 @@ export default function QuoteForm() {
       name: formData.get("name"),
       email: formData.get("email"),
       phone: formData.get("phone"),
+      address: address || formData.get("address"),
       service: formData.get("service"),
       message: formData.get("message"),
     };
@@ -45,18 +79,25 @@ export default function QuoteForm() {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      let data: { success?: boolean; error?: string } = {};
 
-      if (!res.ok || !data.success) {
-        throw new Error(data?.error || "API error");
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
       }
 
-      // ✅ success path
-      setError("");
-      setSuccess(true);
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
       form.reset();
+      setAddress("");
+      setSuccess(true);
+      setError("");
     } catch (err) {
-      console.error(err);
+      console.error("Quote form submission failed:", err);
+      setSuccess(false);
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -65,9 +106,7 @@ export default function QuoteForm() {
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-2">
-        Request a Free Quote
-      </h2>
+      <h2 className="text-2xl font-semibold mb-2">Request a Free Quote</h2>
 
       <p className="text-gray-600 mb-6">
         Quality fence repair & installation you can trust.
@@ -76,6 +115,7 @@ export default function QuoteForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           name="name"
+          type="text"
           required
           placeholder="Name"
           className="w-full border rounded-lg px-4 py-3"
@@ -91,20 +131,38 @@ export default function QuoteForm() {
 
         <input
           name="phone"
+          type="tel"
           required
           placeholder="Phone"
           className="w-full border rounded-lg px-4 py-3"
         />
 
+        <input
+          ref={addressInputRef}
+          name="address"
+          type="text"
+          required
+          placeholder="Project Address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          autoComplete="street-address"
+          className="w-full border rounded-lg px-4 py-3"
+        />
+
         <select
           name="service"
+          required
+          defaultValue=""
           className="w-full border rounded-lg px-4 py-3"
         >
-          <option>Fence Repair</option>
-          <option>Vinyl Fence</option>
-          <option>Wood Fence</option>
-          <option>Chain Link Fence</option>
-          <option>Aluminum Fence</option>
+          <option value="" disabled>
+            Select a service
+          </option>
+          <option value="Fence Repair">Fence Repair</option>
+          <option value="Vinyl Fence">Vinyl Fence</option>
+          <option value="Wood Fence">Wood Fence</option>
+          <option value="Chain Link Fence">Chain Link Fence</option>
+          <option value="Aluminum Fence">Aluminum Fence</option>
         </select>
 
         <textarea
@@ -122,16 +180,15 @@ export default function QuoteForm() {
           {loading ? "Sending..." : "Request Quote"}
         </button>
 
-        {/* ✅ Mutually exclusive feedback */}
-        {success ? (
-          <p className="text-green-600 text-sm text-center">
-            ✅ Request sent! Redirecting…
-          </p>
-        ) : error ? (
-          <p className="text-red-600 text-sm text-center">
-            {error}
-          </p>
-        ) : null}
+        <div aria-live="polite" className="min-h-[24px]">
+          {success ? (
+            <p className="text-green-600 text-sm text-center">
+              ✅ Request sent! Redirecting…
+            </p>
+          ) : error ? (
+            <p className="text-red-600 text-sm text-center">{error}</p>
+          ) : null}
+        </div>
       </form>
     </section>
   );
