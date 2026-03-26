@@ -2,6 +2,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LocalBusinessSchema from "./components/LocalBusinessSchema";
+import Script from "next/script";
 
 export const metadata = {
   title: "Winnett Fence LLC | Quality Fence Repair You Can Trust",
@@ -33,6 +34,10 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/images/logo/favicon-32.png" sizes="32x32" />
       </head>
       <body>
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API}&libraries=places`}
+          strategy="afterInteractive"
+        />
         <Header />
         {children}
         <Footer />
