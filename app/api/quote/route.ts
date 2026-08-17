@@ -72,10 +72,14 @@ export async function POST(req: Request) {
     }
 
     const attachments = await Promise.all(
-      photos.map(async (photo) => ({
-        filename: photo.name,
-        content: Buffer.from(await photo.arrayBuffer()),
-      }))
+      photos.map(async (photo) => {
+        const bytes = Buffer.from(await photo.arrayBuffer());
+    
+        return {
+          filename: photo.name,
+          content: bytes.toString("base64"),
+        };
+      })
     );
 
     const { error } = await resend.emails.send({
