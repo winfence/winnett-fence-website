@@ -11,12 +11,16 @@ declare global {
 
 export default function QuoteForm() {
   const router = useRouter();
-  const addressInputRef = useRef<HTMLInputElement | null>(null);
+
+  const autocompleteContainerRef = useRef<HTMLDivElement | null>(null);
+  const autocompleteElementRef = useRef<any>(null);
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
   const [address, setAddress] = useState("");
+  const [addressSelected, setAddressSelected] = useState(false);
 
   useEffect(() => {
     if (!success) return;
@@ -29,127 +33,157 @@ export default function QuoteForm() {
   }, [success, router]);
 
   useEffect(() => {
-    if (!window.google || !addressInputRef.current) return;
-
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      addressInputRef.current,
-      {
-        types: ["address"],
-        componentRestrictions: { country: "us" },
-        fields: ["formatted_address", "address_components", "geometry"],
+    async function initializeAutocomplete() {
+      if (
+        !window.google?.maps ||
+        !autocompleteContainerRef.current ||
+        autocompleteElementRef.current
+      ) {
+        return;
       }
-    );
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      const formatted =
-        place.formatted_address ||
-        addressInputRef.current?.value ||
-        "";
+      try {
+        await window.google.maps.importLibrary("places");
 
-      setAddress(formatted);
-    });
+        const autocomplete =
+          new window.google.maps.places.PlaceAutocompleteElement({
+            includedRegionCodes: ["us"],
+          });
 
-    return () => {
-      window.google.maps.event.clearInstanceListeners(autocomplete);
-    };
+        autocomplete.style.width = "100%";
+
+        autocomplete.addEventListener("gmp-select", async (event: any) => {
+          const placePrediction = event.placePrediction;
+
+          if (!placePrediction) return;
+
+          const place = placePrediction.toPlace();
+
+          await place.fetchFields({
+            fields: ["formattedAddress", "addressComponents"],
+          });
+
+          const formattedAddress = place.formattedAddress || "";
+
+          setAddress(formattedAddress);
+          setAddressSelected(Boolean(formattedAddress));
+          setError("");
+        });
+
+        autocompleteContainerRef.current.innerHTML = "";
+        autocompleteContainerRef.current.appendChild(autocomplete);
+
+        autocompleteElementRef.current = autocomplete;
+      } catch (err) {
+        console.error("Google address autocomplete failed:", err);
+      }
+    }
+
+    initializeAutocomplete();
   }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (loading) return;
+    if (loading) return;
 
-  setLoading(true);
-  setError("");
-  setSuccess(false);
+    setError("");
+    setSuccess(false);
 
-  const form = e.currentTarget;
-  const formData = new FormData(form);
+    if (!address || !addressSelected) {
+      setError("Please select your project address from the suggestions.");
+      return;
+    }
 
-  // Make sure the Google autocomplete address is included
-  formData.set(
-    "address",
-    address || String(formData.get("address") || "")
-  );
+    setLoading(true);
 
-  // Get uploaded photos
-  const photos = formData
-    .getAll("photos")
-    .filter(
-      (item): item is File =>
-        item instanceof File && item.size > 0
-    );
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-  // Maximum 3 photos
-  if (photos.length > 3) {
-    setError("Please upload no more than 3 photos.");
-    setLoading(false);
-    return;
-  }
+    formData.set("address", address);
 
-  const allowedTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/heic",
-    "image/heif",
-  ];
-
-  // Validate photos
-  for (const photo of photos) {
-    if (!allowedTypes.includes(photo.type)) {
-      setError(
-        "Please upload JPG, PNG, WebP, HEIC, or HEIF images only."
+    const photos = formData
+      .getAll("photos")
+      .filter(
+        (item): item is File =>
+          item instanceof File && item.size > 0
       );
+
+    if (photos.length > 3) {
+      setError("Please upload no more than 3 photos.");
       setLoading(false);
       return;
     }
 
-    if (photo.size > 5 * 1024 * 1024) {
-      setError("Each photo must be 5 MB or smaller.");
-      setLoading(false);
-      return;
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/heic",
+      "image/heif",
+    ];
+
+    for (const photo of photos) {
+      if (!allowedTypes.includes(photo.type)) {
+        setError(
+          "Please upload JPG, PNG, WebP, HEIC, or HEIF images only."
+        );
+        setLoading(false);
+        return;
+      }
+
+      if (photo.size > 5 * 1024 * 1024) {
+        setError("Each photo must be 5 MB or smaller.");
+        setLoading(false);
+        return;
+      }
     }
-  }
-
-  try {
-    const res = await fetch("/api/quote", {
-      method: "POST",
-      body: formData,
-    });
-
-    let data: { success?: boolean; error?: string } = {};
 
     try {
-      data = await res.json();
-    } catch {
-      data = {};
-    }
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (!res.ok || !data.success) {
-      throw new Error(
-        data.error || "Something went wrong. Please try again."
+      let data: { success?: boolean; error?: string } = {};
+
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
+
+      if (!res.ok || !data.success) {
+        throw new Error(
+          data.error || "Something went wrong. Please try again."
+        );
+      }
+
+      form.reset();
+
+      setAddress("");
+      setAddressSelected(false);
+
+      if (autocompleteElementRef.current) {
+        autocompleteElementRef.current.value = "";
+      }
+
+      setSuccess(true);
+      setError("");
+    } catch (err) {
+      console.error("Quote form submission failed:", err);
+
+      setSuccess(false);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
-
-    form.reset();
-    setAddress("");
-    setSuccess(true);
-    setError("");
-  } catch (err) {
-    console.error("Quote form submission failed:", err);
-
-    setSuccess(false);
-    setError(
-      err instanceof Error
-        ? err.message
-        : "Something went wrong. Please try again."
-    );
-  } finally {
-    setLoading(false);
   }
-}
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
@@ -186,17 +220,38 @@ export default function QuoteForm() {
           className="w-full border rounded-lg px-4 py-3"
         />
 
-        <input
-          ref={addressInputRef}
-          name="address"
-          type="text"
-          required
-          placeholder="Project Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          autoComplete="street-address"
-          className="w-full border rounded-lg px-4 py-3"
-        />
+        {/* GOOGLE ADDRESS LOOKUP */}
+        <div>
+          <label
+            htmlFor="project-address"
+            className="block font-medium text-gray-900 mb-2"
+          >
+            Project Address
+          </label>
+
+          <div
+            id="project-address"
+            ref={autocompleteContainerRef}
+            className="w-full"
+          />
+
+          <input
+            type="hidden"
+            name="address"
+            value={address}
+          />
+
+          <p className="mt-2 text-xs text-gray-500">
+            Start typing your address, then select the correct address from the
+            suggestions.
+          </p>
+
+          {addressSelected && (
+            <p className="mt-2 text-sm text-green-700">
+              ✓ {address}
+            </p>
+          )}
+        </div>
 
         <select
           name="service"
@@ -207,11 +262,26 @@ export default function QuoteForm() {
           <option value="" disabled>
             Select a service
           </option>
-          <option value="Fence Repair">Fence Repair</option>
-          <option value="Vinyl Fence">Vinyl Fence</option>
-          <option value="Wood Fence">Wood Fence</option>
-          <option value="Chain Link Fence">Chain Link Fence</option>
-          <option value="Aluminum Fence">Aluminum Fence</option>
+
+          <option value="Fence Repair">
+            Fence Repair
+          </option>
+
+          <option value="Vinyl Fence">
+            Vinyl Fence
+          </option>
+
+          <option value="Wood Fence">
+            Wood Fence
+          </option>
+
+          <option value="Chain Link Fence">
+            Chain Link Fence
+          </option>
+
+          <option value="Aluminum Fence">
+            Aluminum Fence
+          </option>
         </select>
 
         <textarea
@@ -242,8 +312,8 @@ export default function QuoteForm() {
           />
 
           <p className="mt-2 text-xs text-gray-500">
-            Add up to 3 photos of the fence or damaged area. Maximum 5 MB
-            per photo.
+            Add up to 3 photos of the fence or damaged area. Maximum 5 MB per
+            photo.
           </p>
         </div>
 
