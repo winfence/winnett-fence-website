@@ -323,21 +323,7 @@ export default function SeekonkCityPage() {
         </div>
       </section>
 
-      {/* NEARBY AREAS */}
-      <section className="py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Serving Seekonk & Nearby Communities
-          </h2>
-
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            Winnett Fence serves Seekonk and surrounding Southeastern
-            Massachusetts communities including Rehoboth, Attleboro, Norton,
-            Mansfield, North Attleboro, Plainville, Wrentham, Foxborough and
-            Easton.
-          </p>
-        </div>
-      </section>
+      <NearbyAreasSection currentTown="Seekonk" />
 
       {/* FINAL CTA */}
       <section className="py-20 bg-gray-50">
