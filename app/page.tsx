@@ -48,8 +48,10 @@ export default function Home() {
             </div>
 
             {/* RIGHT: FORM */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-zinc-900">
-              <QuoteForm />
+            <div
+              id="quote-form"
+              className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-zinc-900 scroll-mt-6"
+            ><QuoteForm />
             </div>
 
           </div>
