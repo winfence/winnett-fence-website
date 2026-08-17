@@ -2,93 +2,91 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.winnettoutdoor.services";
-  const now = new Date();
 
   return [
     // Homepage
     {
       url: baseUrl,
-      lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
     },
 
-    // Services
+    // Fence Services
     {
       url: `${baseUrl}/services/fence-repair`,
-      lastModified: now,
-      priority: 0.8,
+      changeFrequency: "monthly",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/services/vinyl-fence`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/wood-fence`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/chain-link-fence`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services/aluminum-fence`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.8,
     },
 
-    // City / Service Area Pages (ALL)
+    // Service Area Pages
     {
       url: `${baseUrl}/areas/attleboro-ma`,
-      lastModified: now,
-      priority: 0.7,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/areas/north-attleboro-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/mansfield-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/norton-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/foxborough-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/wrentham-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/plainville-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/seekonk-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/rehoboth-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/areas/easton-ma`,
-      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
     },
   ];
