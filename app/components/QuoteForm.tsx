@@ -56,86 +56,100 @@ export default function QuoteForm() {
   }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (loading) return;
+  if (loading) return;
 
-    setLoading(true);
-    setError("");
-    setSuccess(false);
+  setLoading(true);
+  setError("");
+  setSuccess(false);
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+  const form = e.currentTarget;
+  const formData = new FormData(form);
 
-    formData.set(
-      "address",
-      address || String(formData.get("address") || "")
+  // Make sure the Google autocomplete address is included
+  formData.set(
+    "address",
+    address || String(formData.get("address") || "")
+  );
+
+  // Get uploaded photos
+  const photos = formData
+    .getAll("photos")
+    .filter(
+      (item): item is File =>
+        item instanceof File && item.size > 0
     );
 
-    const photos = formData
-      .getAll("photos")
-      .filter((item): item is File => item instanceof File && item.size > 0);
+  // Maximum 3 photos
+  if (photos.length > 3) {
+    setError("Please upload no more than 3 photos.");
+    setLoading(false);
+    return;
+  }
 
-    if (photos.length > 3) {
-      setError("Please upload no more than 3 photos.");
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+  ];
+
+  // Validate photos
+  for (const photo of photos) {
+    if (!allowedTypes.includes(photo.type)) {
+      setError(
+        "Please upload JPG, PNG, WebP, HEIC, or HEIF images only."
+      );
       setLoading(false);
       return;
     }
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "image/heic",
-      "image/heif",
-    ];
-
-    for (const photo of photos) {
-      if (!allowedTypes.includes(photo.type)) {
-        setError("Please upload JPG, PNG, WebP, HEIC, or HEIF images only.");
-        setLoading(false);
-        return;
-      }
-
-      if (photo.size > 5 * 1024 * 1024) {
-        setError("Each photo must be 5 MB or smaller.");
-        setLoading(false);
-        return;
-      }
-    }
-
-    try {
-      const res = await fetch("/api/quote", {
-        method: "POST",
-        body: formData,
-      });
-
-      let data: { success?: boolean; error?: string } = {};
-
-      try {
-        data = await res.json();
-      } catch {
-        data = {};
-      }
-
-      if (!res.ok || !data.success) {
-        throw new Error(
-          data.error || "Something went wrong. Please try again."
-        );
-      }
-
-      form.reset();
-      setAddress("");
-      setSuccess(true);
-      setError("");
-    } catch (err) {
-      console.error("Quote form submission failed:", err);
-      setSuccess(false);
-      setError("Something went wrong. Please try again.");
-    } finally {
+    if (photo.size > 5 * 1024 * 1024) {
+      setError("Each photo must be 5 MB or smaller.");
       setLoading(false);
+      return;
     }
   }
+
+  try {
+    const res = await fetch("/api/quote", {
+      method: "POST",
+      body: formData,
+    });
+
+    let data: { success?: boolean; error?: string } = {};
+
+    try {
+      data = await res.json();
+    } catch {
+      data = {};
+    }
+
+    if (!res.ok || !data.success) {
+      throw new Error(
+        data.error || "Something went wrong. Please try again."
+      );
+    }
+
+    form.reset();
+    setAddress("");
+    setSuccess(true);
+    setError("");
+  } catch (err) {
+    console.error("Quote form submission failed:", err);
+
+    setSuccess(false);
+    setError(
+      err instanceof Error
+        ? err.message
+        : "Something went wrong. Please try again."
+    );
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
