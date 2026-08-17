@@ -42,7 +42,11 @@ export default function QuoteForm() {
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
-      const formatted = place.formatted_address || addressInputRef.current?.value || "";
+      const formatted =
+        place.formatted_address ||
+        addressInputRef.current?.value ||
+        "";
+
       setAddress(formatted);
     });
 
@@ -63,20 +67,47 @@ export default function QuoteForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      address: address || formData.get("address"),
-      service: formData.get("service"),
-      message: formData.get("message"),
-    };
+    formData.set(
+      "address",
+      address || String(formData.get("address") || "")
+    );
+
+    const photos = formData
+      .getAll("photos")
+      .filter((item): item is File => item instanceof File && item.size > 0);
+
+    if (photos.length > 3) {
+      setError("Please upload no more than 3 photos.");
+      setLoading(false);
+      return;
+    }
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/heic",
+      "image/heif",
+    ];
+
+    for (const photo of photos) {
+      if (!allowedTypes.includes(photo.type)) {
+        setError("Please upload JPG, PNG, WebP, HEIC, or HEIF images only.");
+        setLoading(false);
+        return;
+      }
+
+      if (photo.size > 5 * 1024 * 1024) {
+        setError("Each photo must be 5 MB or smaller.");
+        setLoading(false);
+        return;
+      }
+    }
 
     try {
       const res = await fetch("/api/quote", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
       let data: { success?: boolean; error?: string } = {};
@@ -88,7 +119,9 @@ export default function QuoteForm() {
       }
 
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "Something went wrong. Please try again.");
+        throw new Error(
+          data.error || "Something went wrong. Please try again."
+        );
       }
 
       form.reset();
@@ -106,7 +139,9 @@ export default function QuoteForm() {
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-2">Request a Free Quote</h2>
+      <h2 className="text-2xl font-semibold mb-2">
+        Request a Free Quote
+      </h2>
 
       <p className="text-gray-600 mb-6">
         Quality fence repair & installation you can trust.
@@ -172,6 +207,32 @@ export default function QuoteForm() {
           className="w-full border rounded-lg px-4 py-3"
         />
 
+        <div>
+          <label
+            htmlFor="photos"
+            className="block font-medium text-gray-900 mb-2"
+          >
+            Upload photos{" "}
+            <span className="font-normal text-gray-500">
+              (optional)
+            </span>
+          </label>
+
+          <input
+            id="photos"
+            name="photos"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+            multiple
+            className="w-full border rounded-lg px-4 py-3 text-sm"
+          />
+
+          <p className="mt-2 text-xs text-gray-500">
+            Add up to 3 photos of the fence or damaged area. Maximum 5 MB
+            per photo.
+          </p>
+        </div>
+
         <button
           type="submit"
           disabled={loading}
@@ -186,7 +247,9 @@ export default function QuoteForm() {
               ✅ Request sent! Redirecting…
             </p>
           ) : error ? (
-            <p className="text-red-600 text-sm text-center">{error}</p>
+            <p className="text-red-600 text-sm text-center">
+              {error}
+            </p>
           ) : null}
         </div>
       </form>
