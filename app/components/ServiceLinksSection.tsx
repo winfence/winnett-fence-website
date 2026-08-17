@@ -10,27 +10,27 @@ import {
 const services = [
   {
     title: "Fence Repair",
-    href: "/services/repairs",
+    href: "/services/fence-repair",
     icon: Wrench,
   },
   {
     title: "Vinyl Fencing",
-    href: "/services/vinyl",
+    href: "/services/vinyl-fence",
     icon: Shield,
   },
   {
     title: "Wood Fencing",
-    href: "/services/wood",
+    href: "/services/wood-fence",
     icon: Hammer,
   },
   {
     title: "Chain-Link Fencing",
-    href: "/services/chain-link",
+    href: "/services/chain-link-fence",
     icon: Grid3X3,
   },
   {
     title: "Aluminum Fencing",
-    href: "/services/aluminum",
+    href: "/services/aluminum-fence",
     icon: Fence,
   },
 ];
