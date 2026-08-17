@@ -20,6 +20,7 @@ export default function QuoteForm() {
 
   const [address, setAddress] = useState("");
   const [addressSelected, setAddressSelected] = useState(false);
+  const [service, setService] = useState("");
 
   useEffect(() => {
     if (!success) return;
@@ -116,6 +117,7 @@ export default function QuoteForm() {
     const formData = new FormData(form);
 
     formData.set("address", address);
+    formData.set("service", service);
 
     const photos = formData
       .getAll("photos")
@@ -271,28 +273,43 @@ export default function QuoteForm() {
           <option value="" disabled>
             Select a service
           </option>
-        
-          <option value="Fence Repair" className="text-gray-900">
+
+          <option
+            value="Fence Repair"
+            className="text-gray-900"
+          >
             Fence Repair
           </option>
-        
-          <option value="Vinyl Fence" className="text-gray-900">
+
+          <option
+            value="Vinyl Fence"
+            className="text-gray-900"
+          >
             Vinyl Fence
           </option>
-        
-          <option value="Wood Fence" className="text-gray-900">
+
+          <option
+            value="Wood Fence"
+            className="text-gray-900"
+          >
             Wood Fence
           </option>
-        
-          <option value="Chain Link Fence" className="text-gray-900">
+
+          <option
+            value="Chain Link Fence"
+            className="text-gray-900"
+          >
             Chain Link Fence
           </option>
-        
-          <option value="Aluminum Fence" className="text-gray-900">
+
+          <option
+            value="Aluminum Fence"
+            className="text-gray-900"
+          >
             Aluminum Fence
           </option>
         </select>
-        
+
         <textarea
           name="message"
           placeholder="Tell us about your project"
