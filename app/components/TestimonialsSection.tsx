@@ -45,7 +45,7 @@ export default function TestimonialsSection() {
                 className="text-lg mb-5"
                 aria-label="5 out of 5 stars"
               >
-                ★★★★★
+                Recommended on Facebook
               </div>
 
               <p className="text-gray-700 leading-relaxed">
