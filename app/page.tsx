@@ -6,10 +6,11 @@ import FAQSection from "./components/FAQSection";
 import WhyChooseSection from "./components/WhyChooseSection";
 import ServiceAreaSection from "./components/ServiceAreaSection";
 import FinalCTASection from "./components/FinalCTASection";
+import MobileCTA from "./components/MobileCTA";
 
 export default function Home() {
   return (
-    <main>
+    <main className="pb-20 md:pb-0">
       {/* HERO */}
       <section className="bg-zinc-900 text-white">
         <div className="max-w-7xl mx-auto px-6 py-20">
@@ -77,6 +78,7 @@ export default function Home() {
       <ServiceAreaSection />
       <FAQSection />
       <FinalCTASection />
+      <MobileCTA />
     </main>
   )
 }
