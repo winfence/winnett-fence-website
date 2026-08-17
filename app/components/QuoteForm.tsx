@@ -12,8 +12,8 @@ declare global {
 export default function QuoteForm() {
   const router = useRouter();
 
-  const autocompleteContainerRef = useRef<HTMLDivElement | null>(null);
-  const autocompleteElementRef = useRef<any>(null);
+  const addressContainerRef = useRef<HTMLDivElement | null>(null);
+  const autocompleteRef = useRef<any>(null);
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -33,12 +33,20 @@ export default function QuoteForm() {
   }, [success, router]);
 
   useEffect(() => {
-    async function initializeAutocomplete() {
+    let attempts = 0;
+
+    const initAutocomplete = async () => {
       if (
         !window.google?.maps ||
-        !autocompleteContainerRef.current ||
-        autocompleteElementRef.current
+        !addressContainerRef.current ||
+        autocompleteRef.current
       ) {
+        attempts++;
+
+        if (attempts < 20) {
+          setTimeout(initAutocomplete, 250);
+        }
+
         return;
       }
 
@@ -52,37 +60,74 @@ export default function QuoteForm() {
 
         autocomplete.style.width = "100%";
 
-        autocomplete.addEventListener("gmp-select", async (event: any) => {
-          const placePrediction = event.placePrediction;
+        autocomplete.addEventListener(
+          "gmp-select",
+          async (event: any) => {
+            try {
+              const prediction = event.placePrediction;
 
-          if (!placePrediction) return;
+              if (!prediction) return;
 
-          const place = placePrediction.toPlace();
+              const place = prediction.toPlace();
 
-          await place.fetchFields({
-            fields: ["formattedAddress", "addressComponents"],
-          });
+              await place.fetchFields({
+                fields: ["formattedAddress"],
+              });
 
-          const formattedAddress = place.formattedAddress || "";
+              const formattedAddress = place.formattedAddress || "";
 
-          setAddress(formattedAddress);
-          setAddressSelected(Boolean(formattedAddress));
-          setError("");
-        });
+              if (!formattedAddress) {
+                setAddress("");
+                setAddressSelected(false);
+                setError(
+                  "Please select a valid project address."
+                );
+                return;
+              }
 
-        autocompleteContainerRef.current.innerHTML = "";
-        autocompleteContainerRef.current.appendChild(autocomplete);
+              setAddress(formattedAddress);
+              setAddressSelected(true);
+              setError("");
+            } catch (err) {
+              console.error(
+                "Failed to select Google address:",
+                err
+              );
 
-        autocompleteElementRef.current = autocomplete;
+              setAddress("");
+              setAddressSelected(false);
+              setError(
+                "Please select your address again."
+              );
+            }
+          }
+        );
+
+        addressContainerRef.current.innerHTML = "";
+        addressContainerRef.current.appendChild(autocomplete);
+
+        autocompleteRef.current = autocomplete;
       } catch (err) {
-        console.error("Google address autocomplete failed:", err);
+        console.error(
+          "Google address autocomplete failed:",
+          err
+        );
       }
-    }
+    };
 
-    initializeAutocomplete();
+    initAutocomplete();
+
+    return () => {
+      if (autocompleteRef.current) {
+        autocompleteRef.current.remove();
+        autocompleteRef.current = null;
+      }
+    };
   }, []);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
 
     if (loading) return;
@@ -90,8 +135,10 @@ export default function QuoteForm() {
     setError("");
     setSuccess(false);
 
-    if (!address || !addressSelected) {
-      setError("Please select your project address from the suggestions.");
+    if (!addressSelected || !address) {
+      setError(
+        "Please select your project address from the Google suggestions."
+      );
       return;
     }
 
@@ -133,7 +180,9 @@ export default function QuoteForm() {
       }
 
       if (photo.size > 5 * 1024 * 1024) {
-        setError("Each photo must be 5 MB or smaller.");
+        setError(
+          "Each photo must be 5 MB or smaller."
+        );
         setLoading(false);
         return;
       }
@@ -145,7 +194,10 @@ export default function QuoteForm() {
         body: formData,
       });
 
-      let data: { success?: boolean; error?: string } = {};
+      let data: {
+        success?: boolean;
+        error?: string;
+      } = {};
 
       try {
         data = await res.json();
@@ -155,7 +207,8 @@ export default function QuoteForm() {
 
       if (!res.ok || !data.success) {
         throw new Error(
-          data.error || "Something went wrong. Please try again."
+          data.error ||
+            "Something went wrong. Please try again."
         );
       }
 
@@ -164,14 +217,17 @@ export default function QuoteForm() {
       setAddress("");
       setAddressSelected(false);
 
-      if (autocompleteElementRef.current) {
-        autocompleteElementRef.current.value = "";
+      if (autocompleteRef.current) {
+        autocompleteRef.current.value = "";
       }
 
       setSuccess(true);
       setError("");
     } catch (err) {
-      console.error("Quote form submission failed:", err);
+      console.error(
+        "Quote form submission failed:",
+        err
+      );
 
       setSuccess(false);
 
@@ -195,7 +251,10 @@ export default function QuoteForm() {
         Quality fence repair & installation you can trust.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4"
+      >
         <input
           name="name"
           type="text"
@@ -220,19 +279,14 @@ export default function QuoteForm() {
           className="w-full border rounded-lg px-4 py-3"
         />
 
-        {/* GOOGLE ADDRESS LOOKUP */}
         <div>
-          <label
-            htmlFor="project-address"
-            className="block font-medium text-gray-900 mb-2"
-          >
+          <label className="block font-medium text-gray-900 mb-2">
             Project Address
           </label>
 
           <div
-            id="project-address"
-            ref={autocompleteContainerRef}
-            className="w-full"
+            ref={addressContainerRef}
+            className="w-full min-h-[50px]"
           />
 
           <input
@@ -242,8 +296,7 @@ export default function QuoteForm() {
           />
 
           <p className="mt-2 text-xs text-gray-500">
-            Start typing your address, then select the correct address from the
-            suggestions.
+            Start typing your address and select the correct result.
           </p>
 
           {addressSelected && (
@@ -262,23 +315,18 @@ export default function QuoteForm() {
           <option value="" disabled>
             Select a service
           </option>
-
           <option value="Fence Repair">
             Fence Repair
           </option>
-
           <option value="Vinyl Fence">
             Vinyl Fence
           </option>
-
           <option value="Wood Fence">
             Wood Fence
           </option>
-
           <option value="Chain Link Fence">
             Chain Link Fence
           </option>
-
           <option value="Aluminum Fence">
             Aluminum Fence
           </option>
@@ -312,8 +360,7 @@ export default function QuoteForm() {
           />
 
           <p className="mt-2 text-xs text-gray-500">
-            Add up to 3 photos of the fence or damaged area. Maximum 5 MB per
-            photo.
+            Add up to 3 photos of the fence or damaged area. Maximum 5 MB per photo.
           </p>
         </div>
 
@@ -322,10 +369,15 @@ export default function QuoteForm() {
           disabled={loading}
           className="w-full bg-black text-white py-4 rounded-lg font-medium disabled:opacity-50"
         >
-          {loading ? "Sending..." : "Request Quote"}
+          {loading
+            ? "Sending..."
+            : "Request Quote"}
         </button>
 
-        <div aria-live="polite" className="min-h-[24px]">
+        <div
+          aria-live="polite"
+          className="min-h-[24px]"
+        >
           {success ? (
             <p className="text-green-600 text-sm text-center">
               ✅ Request sent! Redirecting…
