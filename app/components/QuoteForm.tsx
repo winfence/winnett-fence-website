@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+const addressInputRef = useRef<HTMLInputElement | null>(null);
+
 declare global {
   interface Window {
     google?: any;
@@ -33,75 +35,67 @@ export default function QuoteForm() {
   }, [success, router]);
 
   useEffect(() => {
-    let attempts = 0;
+  let attempts = 0;
 
-    const initAutocomplete = async () => {
-      if (
-        !window.google?.maps ||
-        !addressContainerRef.current ||
-        autocompleteRef.current
-      ) {
-        attempts++;
+  const initAutocomplete = () => {
+    if (
+      !window.google?.maps?.places ||
+      !addressInputRef.current
+    ) {
+      attempts++;
 
-        if (attempts < 20) {
-          setTimeout(initAutocomplete, 250);
+      if (attempts < 20) {
+        setTimeout(initAutocomplete, 250);
+      }
+
+      return;
+    }
+
+    const autocomplete =
+      new window.google.maps.places.Autocomplete(
+        addressInputRef.current,
+        {
+          types: ["address"],
+          componentRestrictions: { country: "us" },
+          fields: ["formatted_address"],
         }
+      );
 
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+
+      const formattedAddress =
+        place.formatted_address || "";
+
+      if (!formattedAddress) {
+        setAddressSelected(false);
+        setError(
+          "Please select your project address from the suggestions."
+        );
         return;
       }
 
-      try {
-        await window.google.maps.importLibrary("places");
+      setAddress(formattedAddress);
+      setAddressSelected(true);
+      setError("");
+    });
 
-        const autocomplete =
-          new window.google.maps.places.PlaceAutocompleteElement({
-            includedRegionCodes: ["us"],
-          });
+    return autocomplete;
+  };
 
-        autocomplete.style.width = "100%";
+  const autocomplete = initAutocomplete();
 
-        autocomplete.addEventListener(
-          "gmp-select",
-          async (event: any) => {
-            try {
-              const prediction = event.placePrediction;
-
-              if (!prediction) return;
-
-              const place = prediction.toPlace();
-
-              await place.fetchFields({
-                fields: ["formattedAddress"],
-              });
-
-              const formattedAddress = place.formattedAddress || "";
-
-              if (!formattedAddress) {
-                setAddress("");
-                setAddressSelected(false);
-                setError(
-                  "Please select a valid project address."
-                );
-                return;
-              }
-
-              setAddress(formattedAddress);
-              setAddressSelected(true);
-              setError("");
-            } catch (err) {
-              console.error(
-                "Failed to select Google address:",
-                err
-              );
-
-              setAddress("");
-              setAddressSelected(false);
-              setError(
-                "Please select your address again."
-              );
-            }
-          }
-        );
+  return () => {
+    if (
+      autocomplete &&
+      window.google?.maps?.event
+    ) {
+      window.google.maps.event.clearInstanceListeners(
+        autocomplete
+      );
+    }
+  };
+}, []);
 
         addressContainerRef.current.innerHTML = "";
         addressContainerRef.current.appendChild(autocomplete);
@@ -279,32 +273,23 @@ export default function QuoteForm() {
           className="w-full border rounded-lg px-4 py-3"
         />
 
-        <div>
-          <label className="block font-medium text-gray-900 mb-2">
-            Project Address
-          </label>
-
-          <div
-            ref={addressContainerRef}
-            className="w-full min-h-[50px]"
-          />
-
-          <input
-            type="hidden"
-            name="address"
-            value={address}
-          />
-
-          <p className="mt-2 text-xs text-gray-500">
-            Start typing your address and select the correct result.
-          </p>
-
-          {addressSelected && (
-            <p className="mt-2 text-sm text-green-700">
-              ✓ {address}
-            </p>
-          )}
-        </div>
+        <input
+          ref={addressInputRef}
+          name="address"
+          type="text"
+          required
+          placeholder="Project Address"
+          value={address}
+          onChange={(e) => {
+            setAddress(e.target.value);
+        
+            // If the customer edits the field after selecting a Google result,
+            // require them to select an address again.
+            setAddressSelected(false);
+          }}
+          autoComplete="street-address"
+          className="w-full border rounded-lg px-4 py-3"
+        />
 
         <select
           name="service"
