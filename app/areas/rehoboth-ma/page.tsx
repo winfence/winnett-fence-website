@@ -325,21 +325,7 @@ export default function RehobothCityPage() {
         </div>
       </section>
 
-      {/* NEARBY AREAS */}
-      <section className="py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Serving Rehoboth & Nearby Communities
-          </h2>
-
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            Winnett Fence serves Rehoboth and surrounding Southeastern
-            Massachusetts communities including Seekonk, Attleboro, Norton,
-            Mansfield, North Attleboro, Plainville, Wrentham, Foxborough and
-            Easton.
-          </p>
-        </div>
-      </section>
+      <NearbyAreasSection currentTown="Rehoboth" />
 
       {/* FINAL CTA */}
       <section className="py-20 bg-gray-50">
