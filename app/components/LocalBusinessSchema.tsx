@@ -1,84 +1,170 @@
 // app/components/LocalBusinessSchema.js
+
 export default function LocalBusinessSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": "https://www.winnettoutdoor.services/#business",
+
+    name: "Winnett Fence LLC",
+
+    url: "https://www.winnettoutdoor.services",
+
+    logo: "https://www.winnettoutdoor.services/images/logo/winnett-fence-logo.png",
+
+    image: "https://www.winnettoutdoor.services/images/logo/winnett-fence-logo.png",
+
+    telephone: "+1-857-702-9780",
+
+    priceRange: "$$",
+
+    description:
+      "Winnett Fence LLC provides residential fence repair, replacement, and installation throughout Southeastern Massachusetts, including vinyl, wood, chain-link, and aluminum fencing.",
+
+    areaServed: [
+      {
+        "@type": "City",
+        name: "Attleboro",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "North Attleboro",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Mansfield",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Norton",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Foxborough",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Wrentham",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Plainville",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Seekonk",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Rehoboth",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+      {
+        "@type": "City",
+        name: "Easton",
+        address: {
+          "@type": "PostalAddress",
+          addressRegion: "MA",
+          addressCountry: "US",
+        },
+      },
+    ],
+
+    makesOffer: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Fence Repair",
+          url: "https://www.winnettoutdoor.services/services/fence-repair",
+          description:
+            "Repair of damaged vinyl, wood, chain-link, and aluminum fences, including broken posts, leaning sections, gates, panels, rails, and storm damage.",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Vinyl Fence Installation",
+          url: "https://www.winnettoutdoor.services/services/vinyl-fence",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Wood Fence Installation",
+          url: "https://www.winnettoutdoor.services/services/wood-fence",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Chain-Link Fence Installation",
+          url: "https://www.winnettoutdoor.services/services/chain-link-fence",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Aluminum Fence Installation",
+          url: "https://www.winnettoutdoor.services/services/aluminum-fence",
+        },
+      },
+    ],
+  };
+
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "HomeAndConstructionBusiness",
-          "name": "Winnett Fence LLC",
-          "image": "https://www.winnettfence.com/images/logo/winnett-fence-logo.png",
-          "url": "https://www.winnettfence.com",
-          "telephone": "+1-857-702-9780",
-          "priceRange": "$$",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "123 Main Street",
-            "addressLocality": "Attleboro",
-            "addressRegion": "MA",
-            "postalCode": "02703",
-            "addressCountry": "US"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 41.9448,
-            "longitude": -71.2856
-          },
-          "areaServed": [
-            "Attleboro, MA",
-            "Mansfield, MA",
-            "Norton, MA",
-            "North Attleboro, MA",
-            "Wrentham, MA",
-            "Plainville, MA",
-            "Seekonk, MA",
-            "Rehoboth, MA",
-            "Foxborough, MA",
-            "Easton, MA"
-          ],
-          "openingHours": "Mo,Tu,We,Th,Fr 08:00-18:00",
-          "sameAs": [
-            "https://www.facebook.com/WinnettFence",
-            "https://www.instagram.com/WinnettFence",
-            "https://www.linkedin.com/company/winnett-fence-llc"
-          ],
-          "description": "Winnett Fence LLC provides professional residential and commercial fence installation, repair, and maintenance services in the Greater Attleboro area.",
-          "makesOffer": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Wood Fence Installation",
-                "description": "Installation and repair of wood fences for privacy and aesthetics."
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Vinyl Fence Installation",
-                "description": "Durable vinyl fences for residential and commercial properties."
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Chain Link Fence Installation",
-                "description": "Affordable chain link fence solutions for security and property delineation."
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Fence Repair & Maintenance",
-                "description": "Repair and maintenance services to extend the life of your fences."
-              }
-            }
-          ]
-        }),
+        __html: JSON.stringify(schema),
       }}
     />
   );
