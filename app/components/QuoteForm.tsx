@@ -184,6 +184,7 @@ export default function QuoteForm() {
 
       setAddress("");
       setAddressSelected(false);
+      setService("");
 
       setSuccess(true);
       setError("");
@@ -261,34 +262,37 @@ export default function QuoteForm() {
         <select
           name="service"
           required
-          defaultValue=""
-          className="w-full border rounded-lg px-4 py-3"
+          value={service}
+          onChange={(e) => setService(e.target.value)}
+          className={`w-full border rounded-lg px-4 py-3 bg-white ${
+            service ? "text-gray-900" : "text-gray-500"
+          }`}
         >
           <option value="" disabled>
             Select a service
           </option>
-
-          <option value="Fence Repair">
+        
+          <option value="Fence Repair" className="text-gray-900">
             Fence Repair
           </option>
-
-          <option value="Vinyl Fence">
+        
+          <option value="Vinyl Fence" className="text-gray-900">
             Vinyl Fence
           </option>
-
-          <option value="Wood Fence">
+        
+          <option value="Wood Fence" className="text-gray-900">
             Wood Fence
           </option>
-
-          <option value="Chain Link Fence">
+        
+          <option value="Chain Link Fence" className="text-gray-900">
             Chain Link Fence
           </option>
-
-          <option value="Aluminum Fence">
+        
+          <option value="Aluminum Fence" className="text-gray-900">
             Aluminum Fence
           </option>
         </select>
-
+        
         <textarea
           name="message"
           placeholder="Tell us about your project"
