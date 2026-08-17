@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import NearbyAreasSection from "../../components/NearbyAreasSection";
 import Link from "next/link";
 import {
   Wrench,
@@ -324,21 +325,7 @@ export default function MansfieldCityPage() {
         </div>
       </section>
 
-      {/* NEARBY AREAS */}
-      <section className="py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Serving Mansfield & Nearby Communities
-          </h2>
-
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            Winnett Fence serves Mansfield and surrounding Southeastern
-            Massachusetts communities including Norton, Foxborough, Easton,
-            Attleboro, North Attleboro, Plainville, Wrentham, Seekonk and
-            Rehoboth.
-          </p>
-        </div>
-      </section>
+      <NearbyAreasSection currentTown="Mansfield" />
 
       {/* FINAL CTA */}
       <section className="py-20 bg-gray-50">
