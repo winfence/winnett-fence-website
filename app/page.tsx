@@ -14,19 +14,28 @@ export default function Home() {
 
             {/* LEFT: COPY */}
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-                Residential Fence Installation & Repairs in Southern Massachusetts
+              <p className="text-sm font-semibold uppercase tracking-wider text-zinc-300">
+                Fence Repair & Installation
+              </p>
+
+              <h1 className="mt-3 text-4xl md:text-5xl font-bold leading-tight">
+                Fence Repair & Installation in Southeastern Massachusetts
               </h1>
 
-              <p className="mt-5 text-lg text-zinc-300 max-w-xl">
-                Vinyl, wood, chain-link & aluminum fencing — installed right,
-                repaired fast, and built to last.
+              <p className="mt-5 text-xl font-medium text-white max-w-xl">
+                Broken fence? You may not need a whole new one.
+              </p>
+
+              <p className="mt-3 text-lg text-zinc-300 max-w-xl">
+                Winnett Fence repairs vinyl, wood, chain-link and aluminum fences,
+                including damaged panels, broken posts, gates, leaning sections
+                and storm damage. We also provide complete new fence installations.
               </p>
 
               <ul className="mt-6 space-y-3 text-zinc-200">
                 <li>✅ Free on-site estimates</li>
                 <li>✅ Licensed & insured</li>
-                <li>✅ Repairs, replacements & new installs</li>
+                <li>✅ Fence repairs, replacements & new installs</li>
                 <li>✅ Owner-operated — no subcontractors</li>
               </ul>
 
@@ -55,6 +64,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       <ServicesSection />
       <WhyChooseSection />
       <ServiceAreaSection />
