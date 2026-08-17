@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
-const addressInputRef = useRef<HTMLInputElement | null>(null);
-
 declare global {
   interface Window {
     google?: any;
@@ -14,8 +12,7 @@ declare global {
 export default function QuoteForm() {
   const router = useRouter();
 
-  const addressContainerRef = useRef<HTMLDivElement | null>(null);
-  const autocompleteRef = useRef<any>(null);
+  const addressInputRef = useRef<HTMLInputElement | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -35,86 +32,63 @@ export default function QuoteForm() {
   }, [success, router]);
 
   useEffect(() => {
-  let attempts = 0;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
+    let autocomplete: any;
 
-  const initAutocomplete = () => {
-    if (
-      !window.google?.maps?.places ||
-      !addressInputRef.current
-    ) {
-      attempts++;
-
-      if (attempts < 20) {
-        setTimeout(initAutocomplete, 250);
+    const initAutocomplete = () => {
+      if (
+        !window.google?.maps?.places ||
+        !addressInputRef.current
+      ) {
+        retryTimer = setTimeout(initAutocomplete, 250);
+        return;
       }
 
-      return;
-    }
-
-    const autocomplete =
-      new window.google.maps.places.Autocomplete(
+      autocomplete = new window.google.maps.places.Autocomplete(
         addressInputRef.current,
         {
           types: ["address"],
-          componentRestrictions: { country: "us" },
+          componentRestrictions: {
+            country: "us",
+          },
           fields: ["formatted_address"],
         }
       );
 
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
 
-      const formattedAddress =
-        place.formatted_address || "";
+        const formattedAddress =
+          place.formatted_address || "";
 
-      if (!formattedAddress) {
-        setAddressSelected(false);
-        setError(
-          "Please select your project address from the suggestions."
-        );
-        return;
-      }
+        if (!formattedAddress) {
+          setAddressSelected(false);
+          setError(
+            "Please select your project address from the suggestions."
+          );
+          return;
+        }
 
-      setAddress(formattedAddress);
-      setAddressSelected(true);
-      setError("");
-    });
-
-    return autocomplete;
-  };
-
-  const autocomplete = initAutocomplete();
-
-  return () => {
-    if (
-      autocomplete &&
-      window.google?.maps?.event
-    ) {
-      window.google.maps.event.clearInstanceListeners(
-        autocomplete
-      );
-    }
-  };
-}, []);
-
-        addressContainerRef.current.innerHTML = "";
-        addressContainerRef.current.appendChild(autocomplete);
-
-        autocompleteRef.current = autocomplete;
-      } catch (err) {
-        console.error(
-          "Google address autocomplete failed:",
-          err
-        );
-      }
+        setAddress(formattedAddress);
+        setAddressSelected(true);
+        setError("");
+      });
     };
 
     initAutocomplete();
 
     return () => {
-      if (autocompleteRef.current) {
-        autocompleteRef.current.remove();
-        autocompleteRef.current = null;
+      if (retryTimer) {
+        clearTimeout(retryTimer);
+      }
+
+      if (
+        autocomplete &&
+        window.google?.maps?.event
+      ) {
+        window.google.maps.event.clearInstanceListeners(
+          autocomplete
+        );
       }
     };
   }, []);
@@ -129,7 +103,7 @@ export default function QuoteForm() {
     setError("");
     setSuccess(false);
 
-    if (!addressSelected || !address) {
+    if (!address || !addressSelected) {
       setError(
         "Please select your project address from the Google suggestions."
       );
@@ -211,10 +185,6 @@ export default function QuoteForm() {
       setAddress("");
       setAddressSelected(false);
 
-      if (autocompleteRef.current) {
-        autocompleteRef.current.value = "";
-      }
-
       setSuccess(true);
       setError("");
     } catch (err) {
@@ -282,9 +252,6 @@ export default function QuoteForm() {
           value={address}
           onChange={(e) => {
             setAddress(e.target.value);
-        
-            // If the customer edits the field after selecting a Google result,
-            // require them to select an address again.
             setAddressSelected(false);
           }}
           autoComplete="street-address"
@@ -300,18 +267,23 @@ export default function QuoteForm() {
           <option value="" disabled>
             Select a service
           </option>
+
           <option value="Fence Repair">
             Fence Repair
           </option>
+
           <option value="Vinyl Fence">
             Vinyl Fence
           </option>
+
           <option value="Wood Fence">
             Wood Fence
           </option>
+
           <option value="Chain Link Fence">
             Chain Link Fence
           </option>
+
           <option value="Aluminum Fence">
             Aluminum Fence
           </option>
@@ -345,7 +317,8 @@ export default function QuoteForm() {
           />
 
           <p className="mt-2 text-xs text-gray-500">
-            Add up to 3 photos of the fence or damaged area. Maximum 5 MB per photo.
+            Add up to 3 photos of the fence or damaged area.
+            Maximum 5 MB per photo.
           </p>
         </div>
 
