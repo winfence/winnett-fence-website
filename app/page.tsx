@@ -1,4 +1,5 @@
-import QuoteForm from "./components/QuoteForm"
+import QuoteForm from "./components/QuoteForm";
+import TestimonialsSection from "./components/TestimonialsSection";
 import ServicesSection from "./components/ServicesSection";
 import WhyChooseSection from "./components/WhyChooseSection";
 import ServiceAreaSection from "./components/ServiceAreaSection";
