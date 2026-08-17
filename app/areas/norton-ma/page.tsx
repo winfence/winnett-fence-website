@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import NearbyAreasSection from "../../components/NearbyAreasSection";
 import Link from "next/link";
 import {
   Wrench,
