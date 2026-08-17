@@ -326,21 +326,7 @@ export default function NortonCityPage() {
         </div>
       </section>
 
-      {/* NEARBY AREAS */}
-      <section className="py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            Serving Norton & Nearby Communities
-          </h2>
-
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            Winnett Fence serves Norton and surrounding Southeastern
-            Massachusetts communities including Mansfield, Attleboro, North
-            Attleboro, Easton, Foxborough, Plainville, Wrentham, Seekonk and
-            Rehoboth.
-          </p>
-        </div>
-      </section>
+      <NearbyAreasSection currentTown="Norton" />
 
       {/* FINAL CTA */}
       <section className="py-20 bg-gray-50">
