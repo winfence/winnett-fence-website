@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NearbyAreasSection from "../../components/NearbyAreasSection";
+import ServiceLinksSection from "../../components/ServiceLinksSection";
 import Link from "next/link";
 import {
   Wrench,
@@ -329,6 +330,7 @@ export default function EastonCityPage() {
         </div>
       </section>
 
+      <ServiceLinksSection />
       <NearbyAreasSection currentTown="Easton" />
 
       {/* FINAL CTA */}
