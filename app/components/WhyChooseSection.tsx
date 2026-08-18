@@ -1,29 +1,35 @@
-import { ShieldCheck, Clock, MapPin, ThumbsUp } from "lucide-react";
+import {
+  ShieldCheck,
+  Clock,
+  MapPin,
+  UserCheck,
+  CheckCircle2,
+} from "lucide-react";
 
 const reasons = [
   {
     title: "Local & Reliable",
     description:
-      "Locally owned and operated, proudly serving Attleboro and surrounding Massachusetts towns.",
+      "Locally owned and serving homeowners throughout the Attleboro area and surrounding Southeastern Massachusetts communities.",
     icon: MapPin,
   },
   {
     title: "Quality Craftsmanship",
     description:
-      "We take pride in doing the job right — durable materials, clean installs, no shortcuts.",
+      "Careful repairs and installations using quality materials and proven installation methods.",
     icon: ShieldCheck,
   },
   {
-    title: "On-Time & Responsive",
+    title: "Responsive Service",
     description:
-      "Clear communication, dependable scheduling, and fast turnaround on repairs and installs.",
+      "Clear communication, dependable scheduling, and straightforward recommendations from estimate through completion.",
     icon: Clock,
   },
   {
-    title: "Satisfaction Guaranteed",
+    title: "Owner-Operated",
     description:
-      "We stand behind our work and treat every property like it’s our own.",
-    icon: ThumbsUp,
+      "Work directly with Winnett Fence from your initial estimate through the completion of your project.",
+    icon: UserCheck,
   },
 ];
 
@@ -31,36 +37,75 @@ export default function WhyChooseSection() {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-4">
-          Why Choose Winnett Fence?
-        </h2>
 
-        <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">
-          Homeowners across Massachusetts trust Winnett Fence for honest pricing,
-          quality workmanship, and dependable service.
-        </p>
+        {/* HEADER */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">
+            Why Winnett Fence
+          </p>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="mt-2 text-3xl md:text-4xl font-bold">
+            Straightforward Service. Quality Work.
+          </h2>
+
+          <p className="mt-4 text-gray-600 leading-relaxed">
+            Whether you need a damaged fence repaired or a completely new
+            installation, we focus on practical solutions, clear communication,
+            and workmanship built to last.
+          </p>
+        </div>
+
+        {/* REASONS */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {reasons.map((reason) => {
             const Icon = reason.icon;
+
             return (
               <div
                 key={reason.title}
-                className="text-center p-6 rounded-2xl border border-gray-100 hover:shadow-md transition"
+                className="rounded-2xl border border-gray-200 p-7 hover:shadow-md hover:border-gray-300 transition"
               >
-                <Icon className="h-10 w-10 mx-auto mb-4 text-black" />
+                <div className="h-12 w-12 rounded-xl bg-gray-100 flex items-center justify-center mb-5">
+                  <Icon className="h-6 w-6 text-black" />
+                </div>
 
-                <h3 className="text-lg font-semibold mb-2">
+                <h3 className="text-xl font-semibold mb-3">
                   {reason.title}
                 </h3>
 
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-sm leading-relaxed">
                   {reason.description}
                 </p>
               </div>
             );
           })}
         </div>
+
+        {/* TRUST STRIP */}
+        <div className="mt-12 border-t border-gray-200 pt-8">
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm font-medium text-gray-700">
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Free On-Site Estimates
+            </span>
+
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Licensed & Insured
+            </span>
+
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Residential Fence Specialists
+            </span>
+
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              Repairs & New Installations
+            </span>
+          </div>
+        </div>
+
       </div>
     </section>
   );
