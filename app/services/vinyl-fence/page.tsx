@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "Vinyl Fence Installation in Southeastern Massachusetts",
   description:
     "Vinyl fence installation in Southeastern Massachusetts. Winnett Fence installs low-maintenance privacy and decorative vinyl fencing and also repairs damaged vinyl fences. Free estimates.",
+  
+  alternates: {
+    canonical: "/services/vinyl-fence",
+  },
 };
 
 const benefits = [
