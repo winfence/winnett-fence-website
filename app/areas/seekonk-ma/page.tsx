@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Fence Repair & Installation in Seekonk, MA",
   description:
     "Fence repair and installation in Seekonk, MA. Winnett Fence repairs vinyl, wood, chain-link and aluminum fences and provides new residential fence installation. Free estimates.",
+  alternates: {
+    canonical: "/areas/seekonk-ma",
+  },
 };
 
 const repairServices = [
