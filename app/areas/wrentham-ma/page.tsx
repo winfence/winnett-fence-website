@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Fence Repair & Installation in Wrentham, MA",
   description:
     "Fence repair and installation in Wrentham, MA. Winnett Fence repairs vinyl, wood, chain-link and aluminum fences and provides new residential fence installation. Free estimates.",
+  alternates: {
+    canonical: "/areas/wrentham-ma",
+  },
 };
 
 const repairServices = [
