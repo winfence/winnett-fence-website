@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "Chain Link Fence Installation in Southeastern Massachusetts",
   description:
     "Chain link fence installation in Southeastern Massachusetts. Winnett Fence installs galvanized and vinyl-coated chain link fencing and repairs damaged chain link fences. Free estimates.",
+  
+  alternates: {
+    canonical: "/services/chain-link",
+  },
 };
 
 const benefits = [
