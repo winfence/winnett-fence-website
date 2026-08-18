@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "Fence Repair in Southeastern Massachusetts",
   description:
     "Fence repair for vinyl, wood, chain-link and aluminum fences in Southeastern Massachusetts. Winnett Fence repairs broken posts, leaning sections, gates, storm damage and more. Free estimates.",
+  
+  alternates: {
+    canonical: "/services/fence-repair",
+  },
 };
 
 const repairTypes = [
