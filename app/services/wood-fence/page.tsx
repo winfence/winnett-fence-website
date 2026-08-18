@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "Wood Fence Installation in Southeastern Massachusetts",
   description:
     "Wood fence installation in Southeastern Massachusetts. Winnett Fence installs privacy, picket and decorative wood fencing and repairs damaged wood fences. Free estimates.",
+  
+  alternates: {
+    canonical: "/services/wood-fence",
+  },
 };
 
 const benefits = [
