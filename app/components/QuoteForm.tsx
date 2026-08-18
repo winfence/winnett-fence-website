@@ -208,9 +208,12 @@ export default function QuoteForm() {
     }
   }
 
+  const fieldClasses =
+    "w-full border border-gray-300 rounded-lg px-4 py-3 bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent";
+
   return (
-    <section className="bg-white rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-2">
+    <section className="bg-white text-gray-900 rounded-2xl shadow-xl p-8 max-w-xl mx-auto">
+      <h2 className="text-2xl font-semibold mb-2 text-gray-900">
         Request a Free Quote
       </h2>
 
@@ -227,7 +230,7 @@ export default function QuoteForm() {
           type="text"
           required
           placeholder="Name"
-          className="w-full border rounded-lg px-4 py-3"
+          className={fieldClasses}
         />
 
         <input
@@ -235,7 +238,7 @@ export default function QuoteForm() {
           type="email"
           required
           placeholder="Email"
-          className="w-full border rounded-lg px-4 py-3"
+          className={fieldClasses}
         />
 
         <input
@@ -243,7 +246,7 @@ export default function QuoteForm() {
           type="tel"
           required
           placeholder="Phone"
-          className="w-full border rounded-lg px-4 py-3"
+          className={fieldClasses}
         />
 
         <input
@@ -258,7 +261,7 @@ export default function QuoteForm() {
             setAddressSelected(false);
           }}
           autoComplete="street-address"
-          className="w-full border rounded-lg px-4 py-3"
+          className={fieldClasses}
         />
 
         <select
@@ -266,7 +269,7 @@ export default function QuoteForm() {
           required
           value={service}
           onChange={(e) => setService(e.target.value)}
-          className={`w-full border rounded-lg px-4 py-3 bg-white ${
+          className={`w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent ${
             service ? "text-gray-900" : "text-gray-500"
           }`}
         >
@@ -274,38 +277,23 @@ export default function QuoteForm() {
             Select a service
           </option>
 
-          <option
-            value="Fence Repair"
-            className="text-gray-900"
-          >
+          <option value="Fence Repair" className="text-gray-900">
             Fence Repair
           </option>
 
-          <option
-            value="Vinyl Fence"
-            className="text-gray-900"
-          >
+          <option value="Vinyl Fence" className="text-gray-900">
             Vinyl Fence
           </option>
 
-          <option
-            value="Wood Fence"
-            className="text-gray-900"
-          >
+          <option value="Wood Fence" className="text-gray-900">
             Wood Fence
           </option>
 
-          <option
-            value="Chain Link Fence"
-            className="text-gray-900"
-          >
+          <option value="Chain Link Fence" className="text-gray-900">
             Chain Link Fence
           </option>
 
-          <option
-            value="Aluminum Fence"
-            className="text-gray-900"
-          >
+          <option value="Aluminum Fence" className="text-gray-900">
             Aluminum Fence
           </option>
         </select>
@@ -314,7 +302,7 @@ export default function QuoteForm() {
           name="message"
           placeholder="Tell us about your project"
           rows={4}
-          className="w-full border rounded-lg px-4 py-3"
+          className={fieldClasses}
         />
 
         <div>
@@ -334,7 +322,7 @@ export default function QuoteForm() {
             type="file"
             accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
             multiple
-            className="w-full border rounded-lg px-4 py-3 text-sm"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white text-gray-900 text-sm file:text-gray-900"
           />
 
           <p className="mt-2 text-xs text-gray-500">
@@ -348,9 +336,7 @@ export default function QuoteForm() {
           disabled={loading}
           className="w-full bg-black text-white py-4 rounded-lg font-medium disabled:opacity-50"
         >
-          {loading
-            ? "Sending..."
-            : "Request Quote"}
+          {loading ? "Sending..." : "Request Quote"}
         </button>
 
         <div
