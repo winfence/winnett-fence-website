@@ -27,57 +27,31 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
 
-    const name = String(
-      formData.get("name") || ""
-    ).trim();
-
-    const email = String(
-      formData.get("email") || ""
-    ).trim();
-
-    const phone = String(
-      formData.get("phone") || ""
-    ).trim();
+    const name = String(formData.get("name") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const phone = String(formData.get("phone") || "").trim();
 
     const preferredContact = String(
       formData.get("preferredContact") || ""
     ).trim();
 
-    const address = String(
-      formData.get("address") || ""
-    ).trim();
+    const address = String(formData.get("address") || "").trim();
 
     const streetAddress = String(
       formData.get("streetAddress") || ""
     ).trim();
 
-    const city = String(
-      formData.get("city") || ""
-    ).trim();
+    const city = String(formData.get("city") || "").trim();
+    const state = String(formData.get("state") || "").trim();
+    const zip = String(formData.get("zip") || "").trim();
 
-    const state = String(
-      formData.get("state") || ""
-    ).trim();
-
-    const zip = String(
-      formData.get("zip") || ""
-    ).trim();
-
-    const service = String(
-      formData.get("service") || ""
-    ).trim();
-
-    const message = String(
-      formData.get("message") || ""
-    ).trim();
+    const service = String(formData.get("service") || "").trim();
+    const message = String(formData.get("message") || "").trim();
 
     const nameParts = name.split(/\s+/);
 
-    const firstName =
-      nameParts[0] || "";
-
-    const lastName =
-      nameParts.slice(1).join(" ");
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ");
 
     if (
       !name ||
@@ -103,15 +77,10 @@ export async function POST(req: Request) {
       "Email",
     ];
 
-    if (
-      !allowedContactMethods.includes(
-        preferredContact
-      )
-    ) {
+    if (!allowedContactMethods.includes(preferredContact)) {
       return NextResponse.json(
         {
-          error:
-            "Invalid preferred contact method.",
+          error: "Invalid preferred contact method.",
         },
         {
           status: 400,
@@ -123,15 +92,13 @@ export async function POST(req: Request) {
       .getAll("photos")
       .filter(
         (item): item is File =>
-          item instanceof File &&
-          item.size > 0
+          item instanceof File && item.size > 0
       );
 
     if (photos.length > MAX_FILES) {
       return NextResponse.json(
         {
-          error:
-            "Please upload no more than 3 photos.",
+          error: "Please upload no more than 3 photos.",
         },
         {
           status: 400,
@@ -140,13 +107,10 @@ export async function POST(req: Request) {
     }
 
     for (const photo of photos) {
-      if (
-        !allowedTypes.includes(photo.type)
-      ) {
+      if (!allowedTypes.includes(photo.type)) {
         return NextResponse.json(
           {
-            error:
-              "Unsupported image type.",
+            error: "Unsupported image type.",
           },
           {
             status: 400,
@@ -154,13 +118,10 @@ export async function POST(req: Request) {
         );
       }
 
-      if (
-        photo.size > MAX_FILE_SIZE
-      ) {
+      if (photo.size > MAX_FILE_SIZE) {
         return NextResponse.json(
           {
-            error:
-              "Each photo must be 5 MB or smaller.",
+            error: "Each photo must be 5 MB or smaller.",
           },
           {
             status: 400,
@@ -169,178 +130,161 @@ export async function POST(req: Request) {
       }
     }
 
-    const attachments =
-      await Promise.all(
-        photos.map(async (photo) => {
-          const bytes =
-            Buffer.from(
-              await photo.arrayBuffer()
-            );
+    const attachments = await Promise.all(
+      photos.map(async (photo) => {
+        const bytes = Buffer.from(
+          await photo.arrayBuffer()
+        );
 
-          return {
-            filename: photo.name,
-            content:
-              bytes.toString("base64"),
-          };
-        })
-      );
+        return {
+          filename: photo.name,
+          content: bytes.toString("base64"),
+        };
+      })
+    );
 
-    const { error } =
-      await resend.emails.send({
-        from:
-          "Winnett Fence <leads@winnettoutdoor.services>",
+    /*
+     * Email #1
+     * Normal readable email sent to you
+     */
+    const ownerEmail = await resend.emails.send({
+      from: "Winnett Fence <leads@winnettoutdoor.services>",
 
-        to: [
-          "robert@winnettoutdoor.services",
-        ],
+      to: [
+        "robert@winnettoutdoor.services",
+      ],
 
-        reply_to: email,
+      reply_to: email,
 
-        subject:
-          `New Fence Quote Request - ${
-            service ||
-            "General Inquiry"
-          }`,
+      subject: `New Fence Quote Request - ${
+        service || "General Inquiry"
+      }`,
 
-        text: `
-WINNETT_FENCE_LEAD_START
+      html: `
+        <h2>New Quote Request</h2>
 
-FIRST_NAME: ${firstName}
-LAST_NAME: ${lastName}
-EMAIL: ${email}
-PHONE: ${phone}
-PREFERRED_CONTACT: ${preferredContact}
-STREET_ADDRESS: ${streetAddress}
-CITY: ${city}
-STATE: ${state}
-ZIP: ${zip}
-FULL_ADDRESS: ${address}
-SERVICE: ${service}
-MESSAGE_START
-${message || "(none)"}
-MESSAGE_END
-PHOTOS_ATTACHED: ${photos.length}
-LEAD_SOURCE: Winnett Fence Website
+        <p>
+          <strong>Name:</strong>
+          ${escapeHtml(name)}
+        </p>
 
-WINNETT_FENCE_LEAD_END
-        `.trim(),
+        <p>
+          <strong>Email:</strong>
+          ${escapeHtml(email)}
+        </p>
 
-        html: `
-          <h2>
-            New Quote Request
-          </h2>
+        <p>
+          <strong>Phone:</strong>
+          ${escapeHtml(phone)}
+        </p>
 
-          <p>
-            <strong>
-              Name:
-            </strong>
-            ${escapeHtml(name)}
-          </p>
+        <p>
+          <strong>Preferred Contact:</strong>
+          ${escapeHtml(preferredContact)}
+        </p>
 
-          <p>
-            <strong>
-              Email:
-            </strong>
-            ${escapeHtml(email)}
-          </p>
+        <p>
+          <strong>Address:</strong><br/>
+          ${escapeHtml(streetAddress || address)}
+          ${
+            city
+              ? `<br/>${escapeHtml(city)}, ${escapeHtml(
+                  state
+                )} ${escapeHtml(zip)}`
+              : ""
+          }
+        </p>
 
-          <p>
-            <strong>
-              Phone:
-            </strong>
-            ${escapeHtml(phone)}
-          </p>
+        <p>
+          <strong>Service:</strong>
+          ${escapeHtml(service)}
+        </p>
 
-          <p>
-            <strong>
-              Preferred Contact:
-            </strong>
-            ${escapeHtml(
-              preferredContact
-            )}
-          </p>
+        <p>
+          <strong>Message:</strong>
+          <br/>
+          ${escapeHtml(
+            message || "(none)"
+          ).replaceAll("\n", "<br/>")}
+        </p>
 
-          <p>
-            <strong>
-              Address:
-            </strong><br/>
-            ${escapeHtml(
-              streetAddress ||
-              address
-            )}
+        <p>
+          <strong>Photos attached:</strong>
+          ${photos.length}
+        </p>
 
-            ${
-              city
-                ? `<br/>${escapeHtml(
-                    city
-                  )}, ${escapeHtml(
-                    state
-                  )} ${escapeHtml(
-                    zip
-                  )}`
-                : ""
-            }
-          </p>
+        <hr/>
 
-          <p>
-            <strong>
-              Service:
-            </strong>
-            ${escapeHtml(service)}
-          </p>
+        <p style="font-size:12px;color:#777;">
+          Lead Source: Winnett Fence Website
+        </p>
+      `,
 
-          <p>
-            <strong>
-              Message:
-            </strong>
-            <br/>
+      attachments,
+    });
 
-            ${escapeHtml(
-              message || "(none)"
-            ).replaceAll(
-              "\n",
-              "<br/>"
-            )}
-          </p>
-
-          <p>
-            <strong>
-              Photos attached:
-            </strong>
-            ${photos.length}
-          </p>
-
-          <hr/>
-
-          <p
-            style="
-              font-size:12px;
-              color:#777;
-            "
-          >
-            Lead Source:
-            Winnett Fence Website
-          </p>
-        `,
-
-        attachments,
-      });
-
-    if (error) {
+    if (ownerEmail.error) {
       console.error(
-        "Resend error:",
-        error
+        "Owner email Resend error:",
+        ownerEmail.error
       );
 
       return NextResponse.json(
         {
-          error:
-            "Failed to send quote request.",
+          error: "Failed to send quote request.",
         },
         {
           status: 500,
         }
       );
+    }
+
+    /*
+     * Email #2
+     * Simple plain-text email sent only to Zapier Email Parser
+     *
+     * Replace the address below with the actual parser
+     * address Zapier gives you.
+     */
+    const parserEmail = await resend.emails.send({
+      from: "Winnett Fence <leads@winnettoutdoor.services>",
+
+      to: [
+        "02983c46-ac6f-8528-9b18-420db9437765@robot.zapier.com",
+      ],
+
+      subject: "Winnett Fence Website Lead",
+
+      text: `
+First Name: ${firstName}
+Last Name: ${lastName}
+Email: ${email}
+Phone: ${phone}
+Preferred Contact: ${preferredContact}
+Street Address: ${streetAddress}
+City: ${city}
+State: ${state}
+Zip: ${zip}
+Service: ${service}
+Message: ${message || "(none)"}
+Photos Attached: ${photos.length}
+Lead Source: Winnett Fence Website
+      `.trim(),
+    });
+
+    if (parserEmail.error) {
+      console.error(
+        "Zapier parser email error:",
+        parserEmail.error
+      );
+
+      /*
+       * Your customer still successfully submitted,
+       * and your owner email was already delivered.
+       *
+       * So I would not return a 500 here.
+       * We log the parser failure instead.
+       */
     }
 
     return NextResponse.json({
