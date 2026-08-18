@@ -24,10 +24,10 @@ export default function Header() {
             <Image
               src="/images/logo/winnett-fence-logo-header.png"
               alt="Winnett Fence"
-              width={165}
-              height={60}
+              width={150}
+              height={50}
               priority
-              className="h-auto w-[145px] sm:w-[165px]"
+              className="w-auto h-[46px] object-contain"
             />
           </Link>
 
