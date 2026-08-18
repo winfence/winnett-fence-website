@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Fence Repair & Installation in North Attleboro, MA | Winnett Fence",
+  title: "Fence Repair & Installation in North Attleboro, MA",
   description:
     "Fence repair and installation in North Attleboro, MA. Winnett Fence repairs vinyl, wood, chain-link and aluminum fences and provides professional new fence installation. Free estimates.",
 };
