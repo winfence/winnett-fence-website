@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "Aluminum Fence Installation in Southeastern Massachusetts",
   description:
     "Aluminum fence installation in Southeastern Massachusetts. Winnett Fence installs low-maintenance aluminum fencing and repairs damaged aluminum fences. Free estimates.",
+  
+  alternates: {
+    canonical: "/services/aluminum-fence",
+  },
 };
 
 const benefits = [
