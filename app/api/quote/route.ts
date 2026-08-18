@@ -30,13 +30,38 @@ export async function POST(req: Request) {
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
     const phone = String(formData.get("phone") || "").trim();
+
+    const preferredContact = String(
+      formData.get("preferredContact") || ""
+    ).trim();
+
     const address = String(formData.get("address") || "").trim();
     const service = String(formData.get("service") || "").trim();
     const message = String(formData.get("message") || "").trim();
 
-    if (!name || !email || !phone) {
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !preferredContact ||
+      !address ||
+      !service
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const allowedContactMethods = [
+      "Text Message",
+      "Phone Call",
+      "Email",
+    ];
+
+    if (!allowedContactMethods.includes(preferredContact)) {
+      return NextResponse.json(
+        { error: "Invalid preferred contact method." },
         { status: 400 }
       );
     }
@@ -73,8 +98,10 @@ export async function POST(req: Request) {
 
     const attachments = await Promise.all(
       photos.map(async (photo) => {
-        const bytes = Buffer.from(await photo.arrayBuffer());
-    
+        const bytes = Buffer.from(
+          await photo.arrayBuffer()
+        );
+
         return {
           filename: photo.name,
           content: bytes.toString("base64"),
@@ -86,25 +113,58 @@ export async function POST(req: Request) {
       from: "Winnett Fence <leads@winnettoutdoor.services>",
       to: ["robert@winnettoutdoor.services"],
       reply_to: email,
-      subject: `New Fence Quote Request - ${service || "General Inquiry"}`,
+
+      subject: `New Fence Quote Request - ${
+        service || "General Inquiry"
+      }`,
+
       html: `
         <h2>New Quote Request</h2>
 
-        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Phone:</strong> ${escapeHtml(phone)}</p>
-        <p><strong>Address:</strong> ${escapeHtml(address || "(none)")}</p>
-        <p><strong>Service:</strong> ${escapeHtml(service || "(none)")}</p>
+        <p>
+          <strong>Name:</strong>
+          ${escapeHtml(name)}
+        </p>
+
+        <p>
+          <strong>Email:</strong>
+          ${escapeHtml(email)}
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          ${escapeHtml(phone)}
+        </p>
+
+        <p>
+          <strong>Preferred Contact:</strong>
+          ${escapeHtml(preferredContact)}
+        </p>
+
+        <p>
+          <strong>Address:</strong>
+          ${escapeHtml(address)}
+        </p>
+
+        <p>
+          <strong>Service:</strong>
+          ${escapeHtml(service)}
+        </p>
 
         <p>
           <strong>Message:</strong><br/>
-          ${escapeHtml(message || "(none)").replaceAll("\n", "<br/>")}
+          ${escapeHtml(message || "(none)").replaceAll(
+            "\n",
+            "<br/>"
+          )}
         </p>
 
         <p>
-          <strong>Photos attached:</strong> ${photos.length}
+          <strong>Photos attached:</strong>
+          ${photos.length}
         </p>
       `,
+
       attachments,
     });
 
@@ -112,18 +172,28 @@ export async function POST(req: Request) {
       console.error("Resend error:", error);
 
       return NextResponse.json(
-        { error: "Failed to send quote request." },
-        { status: 500 }
+        {
+          error: "Failed to send quote request.",
+        },
+        {
+          status: 500,
+        }
       );
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+    });
   } catch (error) {
     console.error("Quote request error:", error);
 
     return NextResponse.json(
-      { error: "Failed to send" },
-      { status: 500 }
+      {
+        error: "Failed to send",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }
