@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LocalBusinessSchema from "./components/LocalBusinessSchema";
+import PhoneClickTracker from "./components/PhoneClickTracker";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -82,7 +83,7 @@ export default function RootLayout({
         />
 
         <Header />
-
+        <PhoneClickTracker />
         {children}
 
         <Footer />
