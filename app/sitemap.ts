@@ -13,6 +13,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Fence Services
     {
+      url: `${baseUrl}/services`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/services/fence-repair`,
       changeFrequency: "monthly",
       priority: 0.9,
