@@ -20,6 +20,12 @@ export default function QuoteForm() {
 
   const [address, setAddress] = useState("");
   const [addressSelected, setAddressSelected] = useState(false);
+
+  const [streetAddress, setStreetAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+
   const [service, setService] = useState("");
   const [preferredContact, setPreferredContact] = useState("");
 
@@ -53,7 +59,10 @@ export default function QuoteForm() {
           componentRestrictions: {
             country: "us",
           },
-          fields: ["formatted_address"],
+          fields: [
+            "formatted_address",
+            "address_components",
+          ],
         }
       );
 
@@ -63,15 +72,75 @@ export default function QuoteForm() {
         const formattedAddress =
           place.formatted_address || "";
 
-        if (!formattedAddress) {
+        const components =
+          place.address_components || [];
+
+        if (!formattedAddress || components.length === 0) {
           setAddressSelected(false);
+
+          setStreetAddress("");
+          setCity("");
+          setState("");
+          setZip("");
+
           setError(
             "Please select your project address from the suggestions."
           );
+
           return;
         }
 
+        const getComponent = (
+          type: string,
+          useShortName = false
+        ) => {
+          const component = components.find(
+            (item: any) => item.types?.includes(type)
+          );
+
+          if (!component) return "";
+
+          return useShortName
+            ? component.short_name || ""
+            : component.long_name || "";
+        };
+
+        const streetNumber =
+          getComponent("street_number");
+
+        const route =
+          getComponent("route");
+
+        const parsedStreetAddress = [
+          streetNumber,
+          route,
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        const parsedCity =
+          getComponent("locality") ||
+          getComponent("postal_town") ||
+          getComponent(
+            "administrative_area_level_3"
+          );
+
+        const parsedState =
+          getComponent(
+            "administrative_area_level_1",
+            true
+          );
+
+        const parsedZip =
+          getComponent("postal_code");
+
         setAddress(formattedAddress);
+
+        setStreetAddress(parsedStreetAddress);
+        setCity(parsedCity);
+        setState(parsedState);
+        setZip(parsedZip);
+
         setAddressSelected(true);
         setError("");
       });
@@ -109,6 +178,7 @@ export default function QuoteForm() {
       setError(
         "Please select your project address from the Google suggestions."
       );
+
       return;
     }
 
@@ -118,8 +188,16 @@ export default function QuoteForm() {
     const formData = new FormData(form);
 
     formData.set("address", address);
+    formData.set("streetAddress", streetAddress);
+    formData.set("city", city);
+    formData.set("state", state);
+    formData.set("zip", zip);
+
     formData.set("service", service);
-    formData.set("preferredContact", preferredContact);
+    formData.set(
+      "preferredContact",
+      preferredContact
+    );
 
     const photos = formData
       .getAll("photos")
@@ -129,7 +207,10 @@ export default function QuoteForm() {
       );
 
     if (photos.length > 3) {
-      setError("Please upload no more than 3 photos.");
+      setError(
+        "Please upload no more than 3 photos."
+      );
+
       setLoading(false);
       return;
     }
@@ -147,6 +228,7 @@ export default function QuoteForm() {
         setError(
           "Please upload JPG, PNG, WebP, HEIC, or HEIF images only."
         );
+
         setLoading(false);
         return;
       }
@@ -155,6 +237,7 @@ export default function QuoteForm() {
         setError(
           "Each photo must be 5 MB or smaller."
         );
+
         setLoading(false);
         return;
       }
@@ -188,6 +271,12 @@ export default function QuoteForm() {
 
       setAddress("");
       setAddressSelected(false);
+
+      setStreetAddress("");
+      setCity("");
+      setState("");
+      setZip("");
+
       setService("");
       setPreferredContact("");
 
@@ -256,24 +345,37 @@ export default function QuoteForm() {
           name="preferredContact"
           required
           value={preferredContact}
-          onChange={(e) => setPreferredContact(e.target.value)}
+          onChange={(e) =>
+            setPreferredContact(e.target.value)
+          }
           className={`w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent ${
-            preferredContact ? "text-gray-900" : "text-gray-500"
+            preferredContact
+              ? "text-gray-900"
+              : "text-gray-500"
           }`}
         >
           <option value="" disabled>
             Preferred method of contact
           </option>
 
-          <option value="Text Message" className="text-gray-900">
+          <option
+            value="Text Message"
+            className="text-gray-900"
+          >
             Text Message
           </option>
 
-          <option value="Phone Call" className="text-gray-900">
+          <option
+            value="Phone Call"
+            className="text-gray-900"
+          >
             Phone Call
           </option>
 
-          <option value="Email" className="text-gray-900">
+          <option
+            value="Email"
+            className="text-gray-900"
+          >
             Email
           </option>
         </select>
@@ -288,6 +390,11 @@ export default function QuoteForm() {
           onChange={(e) => {
             setAddress(e.target.value);
             setAddressSelected(false);
+
+            setStreetAddress("");
+            setCity("");
+            setState("");
+            setZip("");
           }}
           autoComplete="street-address"
           className={fieldClasses}
@@ -297,32 +404,51 @@ export default function QuoteForm() {
           name="service"
           required
           value={service}
-          onChange={(e) => setService(e.target.value)}
+          onChange={(e) =>
+            setService(e.target.value)
+          }
           className={`w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent ${
-            service ? "text-gray-900" : "text-gray-500"
+            service
+              ? "text-gray-900"
+              : "text-gray-500"
           }`}
         >
           <option value="" disabled>
             Select a service
           </option>
 
-          <option value="Fence Repair" className="text-gray-900">
+          <option
+            value="Fence Repair"
+            className="text-gray-900"
+          >
             Fence Repair
           </option>
 
-          <option value="Vinyl Fence" className="text-gray-900">
+          <option
+            value="Vinyl Fence"
+            className="text-gray-900"
+          >
             Vinyl Fence
           </option>
 
-          <option value="Wood Fence" className="text-gray-900">
+          <option
+            value="Wood Fence"
+            className="text-gray-900"
+          >
             Wood Fence
           </option>
 
-          <option value="Chain Link Fence" className="text-gray-900">
+          <option
+            value="Chain Link Fence"
+            className="text-gray-900"
+          >
             Chain Link Fence
           </option>
 
-          <option value="Aluminum Fence" className="text-gray-900">
+          <option
+            value="Aluminum Fence"
+            className="text-gray-900"
+          >
             Aluminum Fence
           </option>
         </select>
@@ -365,7 +491,9 @@ export default function QuoteForm() {
           disabled={loading}
           className="w-full bg-black text-white py-4 rounded-lg font-medium disabled:opacity-50"
         >
-          {loading ? "Sending..." : "Request Quote"}
+          {loading
+            ? "Sending..."
+            : "Request Quote"}
         </button>
 
         <div
