@@ -21,6 +21,7 @@ export default function QuoteForm() {
   const [address, setAddress] = useState("");
   const [addressSelected, setAddressSelected] = useState(false);
   const [service, setService] = useState("");
+  const [preferredContact, setPreferredContact] = useState("");
 
   useEffect(() => {
     if (!success) return;
@@ -118,6 +119,7 @@ export default function QuoteForm() {
 
     formData.set("address", address);
     formData.set("service", service);
+    formData.set("preferredContact", preferredContact);
 
     const photos = formData
       .getAll("photos")
@@ -187,6 +189,7 @@ export default function QuoteForm() {
       setAddress("");
       setAddressSelected(false);
       setService("");
+      setPreferredContact("");
 
       setSuccess(true);
       setError("");
@@ -248,6 +251,32 @@ export default function QuoteForm() {
           placeholder="Phone"
           className={fieldClasses}
         />
+
+        <select
+          name="preferredContact"
+          required
+          value={preferredContact}
+          onChange={(e) => setPreferredContact(e.target.value)}
+          className={`w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent ${
+            preferredContact ? "text-gray-900" : "text-gray-500"
+          }`}
+        >
+          <option value="" disabled>
+            Preferred method of contact
+          </option>
+
+          <option value="Text Message" className="text-gray-900">
+            Text Message
+          </option>
+
+          <option value="Phone Call" className="text-gray-900">
+            Phone Call
+          </option>
+
+          <option value="Email" className="text-gray-900">
+            Email
+          </option>
+        </select>
 
         <input
           ref={addressInputRef}
