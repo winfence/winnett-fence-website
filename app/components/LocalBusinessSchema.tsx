@@ -1,118 +1,52 @@
 // app/components/LocalBusinessSchema.js
 
 export default function LocalBusinessSchema() {
+  const serviceAreas = [
+    "Attleboro, MA",
+    "North Attleboro, MA",
+    "Mansfield, MA",
+    "Norton, MA",
+    "Foxborough, MA",
+    "Wrentham, MA",
+    "Plainville, MA",
+    "Seekonk, MA",
+    "Rehoboth, MA",
+    "Easton, MA",
+  ];
+
   const schema = {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": "https://www.winnettoutdoor.services/#business",
+    "@type": "Organization",
+    "@id": "https://www.winnettoutdoor.services/#organization",
 
     name: "Winnett Fence LLC",
 
     url: "https://www.winnettoutdoor.services",
 
-    logo: "https://www.winnettoutdoor.services/images/logo/winnett-fence-logo.png",
-
-    image: "https://www.winnettoutdoor.services/images/logo/winnett-fence-logo.png",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.winnettoutdoor.services/images/logo/winnett-fence-logo.png",
+    },
 
     telephone: "+1-857-702-9780",
 
-    priceRange: "$$",
+    email: "robert@winnettoutdoor.services",
 
     description:
       "Winnett Fence LLC provides residential fence repair, replacement, and installation throughout Southeastern Massachusetts, including vinyl, wood, chain-link, and aluminum fencing.",
 
-    areaServed: [
-      {
-        "@type": "City",
-        name: "Attleboro",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "North Attleboro",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Mansfield",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Norton",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Foxborough",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Wrentham",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Plainville",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Seekonk",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Rehoboth",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
-      {
-        "@type": "City",
-        name: "Easton",
-        address: {
-          "@type": "PostalAddress",
-          addressRegion: "MA",
-          addressCountry: "US",
-        },
-      },
+    sameAs: [
+      "https://www.facebook.com/winnettoutdoor",
     ],
+
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+1-857-702-9780",
+      email: "robert@winnettoutdoor.services",
+      contactType: "customer service",
+      areaServed: "US-MA",
+      availableLanguage: "English",
+    },
 
     makesOffer: [
       {
@@ -122,39 +56,48 @@ export default function LocalBusinessSchema() {
           name: "Fence Repair",
           url: "https://www.winnettoutdoor.services/services/fence-repair",
           description:
-            "Repair of damaged vinyl, wood, chain-link, and aluminum fences, including broken posts, leaning sections, gates, panels, rails, and storm damage.",
+            "Residential fence repair for vinyl, wood, chain-link, and aluminum fencing, including broken posts, damaged sections, gates, rails, panels, and storm damage.",
+          areaServed: serviceAreas,
         },
       },
+
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
           name: "Vinyl Fence Installation",
           url: "https://www.winnettoutdoor.services/services/vinyl-fence",
+          areaServed: serviceAreas,
         },
       },
+
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
           name: "Wood Fence Installation",
           url: "https://www.winnettoutdoor.services/services/wood-fence",
+          areaServed: serviceAreas,
         },
       },
+
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Chain-Link Fence Installation",
+          name: "Chain Link Fence Installation",
           url: "https://www.winnettoutdoor.services/services/chain-link-fence",
+          areaServed: serviceAreas,
         },
       },
+
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
           name: "Aluminum Fence Installation",
           url: "https://www.winnettoutdoor.services/services/aluminum-fence",
+          areaServed: serviceAreas,
         },
       },
     ],
