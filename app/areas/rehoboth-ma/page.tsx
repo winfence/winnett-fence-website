@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Fence Repair & Installation in Rehoboth, MA",
   description:
     "Fence repair and installation in Rehoboth, MA. Winnett Fence repairs vinyl, wood, chain-link and aluminum fences and provides new residential fence installation. Free estimates.",
+  alternates: {
+    canonical: "/areas/rehoboth-ma",
+  },
 };
 
 const repairServices = [
