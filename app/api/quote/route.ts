@@ -118,6 +118,26 @@ export async function POST(req: Request) {
         service || "General Inquiry"
       }`,
 
+      // Plain-text version designed for Zapier
+      text: `
+WINNETT_FENCE_LEAD_START
+
+NAME: ${name}
+EMAIL: ${email}
+PHONE: ${phone}
+PREFERRED_CONTACT: ${preferredContact}
+ADDRESS: ${address}
+SERVICE: ${service}
+MESSAGE_START
+${message || "(none)"}
+MESSAGE_END
+PHOTOS_ATTACHED: ${photos.length}
+LEAD_SOURCE: Winnett Fence Website
+
+WINNETT_FENCE_LEAD_END
+      `.trim(),
+
+      // Human-readable HTML version
       html: `
         <h2>New Quote Request</h2>
 
@@ -162,6 +182,12 @@ export async function POST(req: Request) {
         <p>
           <strong>Photos attached:</strong>
           ${photos.length}
+        </p>
+
+        <hr/>
+
+        <p style="font-size:12px;color:#777;">
+          Lead Source: Winnett Fence Website
         </p>
       `,
 
