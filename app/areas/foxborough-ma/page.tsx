@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Fence Repair & Installation in Foxborough, MA | Winnett Fence",
+  title: "Fence Repair & Installation in Foxborough, MA",
   description:
     "Fence repair and installation in Foxborough, MA. Winnett Fence repairs damaged vinyl, wood, chain-link and aluminum fences and provides new fence installation. Free estimates.",
 };
