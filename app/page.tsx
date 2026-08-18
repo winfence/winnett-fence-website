@@ -1,3 +1,9 @@
+import Link from "next/link";
+import {
+  CheckCircle2,
+  Wrench,
+} from "lucide-react";
+
 import QuoteForm from "./components/QuoteForm";
 import TestimonialsSection from "./components/TestimonialsSection";
 import ProjectsSection from "./components/ProjectsSection";
@@ -7,6 +13,13 @@ import WhyChooseSection from "./components/WhyChooseSection";
 import ServiceAreaSection from "./components/ServiceAreaSection";
 import FinalCTASection from "./components/FinalCTASection";
 import MobileCTA from "./components/MobileCTA";
+
+const trustPoints = [
+  "Free on-site estimates",
+  "Licensed & insured",
+  "Fence repairs, replacements & new installs",
+  "Owner-operated — no subcontractors",
+];
 
 export default function Home() {
   return (
@@ -18,7 +31,7 @@ export default function Home() {
 
             {/* LEFT: COPY */}
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-zinc-300">
+              <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
                 Fence Repair & Installation
               </p>
 
@@ -26,33 +39,58 @@ export default function Home() {
                 Fence Repair & Installation in Southeastern Massachusetts
               </h1>
 
-              <p className="mt-5 text-xl font-medium text-white max-w-xl">
+              <p className="mt-6 text-xl font-medium text-white max-w-xl">
                 Broken fence? You may not need a whole new one.
               </p>
 
-              <p className="mt-3 text-lg text-zinc-300 max-w-xl">
-                Winnett Fence repairs vinyl, wood, chain-link and aluminum fences,
-                including damaged panels, broken posts, gates, leaning sections
-                and storm damage. We also provide complete new fence installations.
+              <p className="mt-3 text-lg text-zinc-300 max-w-xl leading-relaxed">
+                Winnett Fence repairs vinyl, wood, chain-link and aluminum
+                fences, including damaged panels, broken posts, gates, leaning
+                sections and storm damage. We also provide complete new fence
+                installations.
               </p>
 
-              <ul className="mt-6 space-y-3 text-zinc-200">
-                <li>✅ Free on-site estimates</li>
-                <li>✅ Licensed & insured</li>
-                <li>✅ Fence repairs, replacements & new installs</li>
-                <li>✅ Owner-operated — no subcontractors</li>
-              </ul>
+              <div className="mt-7 space-y-3">
+                {trustPoints.map((point) => (
+                  <div
+                    key={point}
+                    className="flex items-start gap-3 text-zinc-200"
+                  >
+                    <CheckCircle2 className="h-5 w-5 shrink-0 mt-0.5" />
+                    <span>{point}</span>
+                  </div>
+                ))}
+              </div>
 
-              <p className="mt-6 text-sm text-zinc-400">
-                Serving Attleboro, Mansfield, Norton, North Attleboro & nearby towns
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  href="/services/fence-repair"
+                  className="inline-flex items-center gap-2 border border-zinc-600 px-6 py-3 rounded-xl font-semibold hover:bg-zinc-800 transition"
+                >
+                  <Wrench className="h-4 w-4" />
+                  Fence Repair Services
+                </Link>
+
+                <a
+                  href="tel:8577029780"
+                  className="inline-flex items-center px-6 py-3 font-semibold text-zinc-200 hover:text-white transition"
+                >
+                  Call 857-702-9780
+                </a>
+              </div>
+
+              <p className="mt-7 text-sm text-zinc-400">
+                Serving Attleboro and surrounding Southeastern Massachusetts
+                communities
               </p>
             </div>
 
             {/* RIGHT: FORM */}
             <div
               id="quote-form"
-              className="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-zinc-900 scroll-mt-6"
-            ><QuoteForm />
+              className="scroll-mt-24"
+            >
+              <QuoteForm />
             </div>
 
           </div>
@@ -60,12 +98,12 @@ export default function Home() {
       </section>
 
       {/* TRUST BAR */}
-      <section className="bg-zinc-100 border-t">
+      <section className="bg-zinc-100 border-t border-zinc-200">
         <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm font-medium">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm font-semibold text-zinc-800">
             <div>Locally Owned</div>
-            <div>Fast Turnaround</div>
-            <div>Quality Materials</div>
+            <div>Owner-Operated</div>
+            <div>Licensed & Insured</div>
             <div>Free Estimates</div>
           </div>
         </div>
@@ -78,7 +116,8 @@ export default function Home() {
       <ServiceAreaSection />
       <FAQSection />
       <FinalCTASection />
+
       <MobileCTA />
     </main>
-  )
+  );
 }
