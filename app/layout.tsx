@@ -77,30 +77,36 @@ export default function RootLayout({
       </head>
 
       <body>
+        {/* GOOGLE MAPS */}
         <Script
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API}&libraries=places`}
           strategy="afterInteractive"
         />
 
+        {/* GOOGLE ANALYTICS */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-MS6HMGKR07"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+
+            gtag('js', new Date());
+            gtag('config', 'G-MS6HMGKR07');
+          `}
+        </Script>
+
         <Header />
+
         <PhoneClickTracker />
+
         {children}
 
         <Footer />
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-MS6HMGKR07"
-        strategy="afterInteractive"
-      />
-      
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-      
-          gtag('config', 'G-MS6HMGKR07');
-        `}
-      </Script>
       </body>
     </html>
   );
