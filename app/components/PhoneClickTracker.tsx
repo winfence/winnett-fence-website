@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 declare global {
   interface Window {
-    dataLayer: unknown[];
+    gtag?: (
+      command: "event",
+      eventName: string,
+      params?: Record<string, string>
+    ) => void;
   }
 }
 
@@ -28,14 +32,13 @@ export default function PhoneClickTracker() {
       const phoneNumber =
         link.getAttribute("href")?.replace("tel:", "") || "";
 
-      window.dataLayer = window.dataLayer || [];
-
-      window.dataLayer.push({
-        event: "click_to_call",
-        phone_number: phoneNumber,
-        link_url: link.href,
-        page_location: window.location.href,
-      });
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "click_to_call", {
+          phone_number: phoneNumber,
+          link_url: link.href,
+          page_location: window.location.href,
+        });
+      }
     };
 
     document.addEventListener("click", handleClick);
