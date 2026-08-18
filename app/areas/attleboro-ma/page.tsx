@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Fence Repair & Installation in Attleboro, MA",
   description:
     "Fence repair and installation in Attleboro, MA. Winnett Fence repairs vinyl, wood, chain-link and aluminum fences and provides professional new fence installation. Free estimates.",
+  alternates: {
+    canonical: "/areas/attleboro-ma",
+  },
 };
 
 const repairServices = [
