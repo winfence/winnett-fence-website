@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Fence Repair & Installation in Mansfield, MA | Winnett Fence",
+  title: "Fence Repair & Installation in Mansfield, MA",
   description:
     "Fence repair and installation in Mansfield, MA. Winnett Fence repairs vinyl, wood, chain-link and aluminum fences and provides professional new fence installation. Free estimates.",
 };
