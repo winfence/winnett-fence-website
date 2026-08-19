@@ -250,7 +250,7 @@ export async function POST(req: Request) {
       from: "Winnett Fence <leads@winnettoutdoor.services>",
 
       to: [
-        "02983c46-ac6f-8528-9b18-420db9437765@robot.zapier.com",
+        "iscwhg0u@robot.zapier.com",
       ],
 
       subject: "Winnett Fence Website Lead",
