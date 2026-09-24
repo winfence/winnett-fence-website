@@ -53,6 +53,13 @@ export default function Header() {
             >
               Service Areas
             </Link>
+
+            <Link
+              href="/referrals"
+              className="hover:text-black transition"
+            >
+              Referrals
+            </Link>
           </nav>
 
           {/* DESKTOP ACTIONS */}
@@ -85,7 +92,9 @@ export default function Header() {
 
             <button
               type="button"
-              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={
+                menuOpen ? "Close navigation menu" : "Open navigation menu"
+              }
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((open) => !open)}
               className="flex items-center justify-center h-10 w-10 rounded-lg border border-gray-200 text-gray-800"
@@ -125,6 +134,14 @@ export default function Header() {
                 className="py-3 text-base font-medium text-gray-700"
               >
                 Service Areas
+              </Link>
+
+              <Link
+                href="/referrals"
+                onClick={closeMenu}
+                className="py-3 text-base font-medium text-gray-700"
+              >
+                Referrals
               </Link>
 
               <a
