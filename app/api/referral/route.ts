@@ -44,8 +44,8 @@ export async function POST(req: Request) {
       : "None provided";
 
     const { error } = await resend.emails.send({
-      from: "Winnett Fence Website <website@winnettoutdoor.services>",
-      to: ["YOUR_EMAIL_HERE"],
+      from: "Winnett Fence Referral <referral@winnettoutdoor.services>",
+      to: robert@winnettoutdoor.services,
       subject: `New Referral: ${customerName}`,
       html: `
         <div
