@@ -21,14 +21,14 @@ export default function ReferralsPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-  
+
     setLoading(true);
     setSuccess(false);
     setError("");
-  
+
     try {
       const response = await fetch("/api/referral", {
         method: "POST",
@@ -43,15 +43,16 @@ export default function ReferralsPage() {
           notes,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
         throw new Error(data.error || "Unable to submit referral.");
       }
-  
+
       setSuccess(true);
-  
+
+      // Clear form after successful submission
       setReferrerName("");
       setReferrerContact("");
       setCustomerName("");
@@ -66,24 +67,6 @@ export default function ReferralsPage() {
     } finally {
       setLoading(false);
     }
-  }
-
-    const body = encodeURIComponent(
-      [
-        "NEW WINNETT FENCE REFERRAL",
-        "",
-        `Referrer Name: ${referrerName}`,
-        `Referrer Email / Phone: ${referrerContact}`,
-        "",
-        `Referred Customer: ${customerName}`,
-        `Customer Email / Phone: ${customerContact}`,
-        "",
-        `Notes: ${notes || "None provided"}`,
-      ].join("\n")
-    );
-
-    window.location.href =
-      `mailto:robert@winnettoutdoor.services?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -101,7 +84,9 @@ export default function ReferralsPage() {
 
           <h1 className="mx-auto max-w-4xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
             Refer a Friend.
-            <span className="block text-amber-400">Get a $50 Gift Card.</span>
+            <span className="block text-amber-400">
+              Get a $50 Gift Card.
+            </span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
@@ -140,6 +125,7 @@ export default function ReferralsPage() {
           </div>
 
           <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {/* STEP 1 */}
             <div className="rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-950 text-white">
                 <UserPlus className="h-7 w-7" />
@@ -149,7 +135,9 @@ export default function ReferralsPage() {
                 Step 1
               </p>
 
-              <h3 className="mt-2 text-xl font-bold">Send Us a Referral</h3>
+              <h3 className="mt-2 text-xl font-bold">
+                Send Us a Referral
+              </h3>
 
               <p className="mt-3 leading-7 text-slate-600">
                 Refer a friend, neighbor, customer, or colleague who needs
@@ -157,6 +145,7 @@ export default function ReferralsPage() {
               </p>
             </div>
 
+            {/* STEP 2 */}
             <div className="rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-950 text-white">
                 <ShieldCheck className="h-7 w-7" />
@@ -166,14 +155,17 @@ export default function ReferralsPage() {
                 Step 2
               </p>
 
-              <h3 className="mt-2 text-xl font-bold">We Handle the Project</h3>
+              <h3 className="mt-2 text-xl font-bold">
+                We Handle the Project
+              </h3>
 
               <p className="mt-3 leading-7 text-slate-600">
-                We'll contact them, provide an estimate, and handle their fence
-                project from start to finish.
+                We'll contact them, provide an estimate, and handle their
+                fence project from start to finish.
               </p>
             </div>
 
+            {/* STEP 3 */}
             <div className="rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-amber-400 text-slate-950">
                 <Gift className="h-7 w-7" />
@@ -183,7 +175,9 @@ export default function ReferralsPage() {
                 Step 3
               </p>
 
-              <h3 className="mt-2 text-xl font-bold">You Get $50</h3>
+              <h3 className="mt-2 text-xl font-bold">
+                You Get $50
+              </h3>
 
               <p className="mt-3 leading-7 text-slate-600">
                 After the project is completed and paid in full, we'll contact
@@ -204,9 +198,9 @@ export default function ReferralsPage() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-            Have another friend or neighbor who needs fence work? Send them our
-            way. You can earn another $50 gift card for every qualifying new
-            customer you refer.
+            Have another friend or neighbor who needs fence work? Send them
+            our way. You can earn another $50 gift card for every qualifying
+            new customer you refer.
           </p>
         </div>
       </section>
@@ -228,15 +222,15 @@ export default function ReferralsPage() {
             </h2>
 
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Our referral program isn't just for homeowners. Landscapers, tree
-              companies, contractors, real estate professionals, property
+              Our referral program isn't just for homeowners. Landscapers,
+              tree companies, contractors, real estate professionals, property
               managers, and other local businesses are welcome to participate.
             </p>
 
             <p className="mt-4 text-lg leading-8 text-slate-600">
               Send your customer to Winnett Fence. We'll take care of the
-              estimate, communication, and fence work while keeping the process
-              simple for you and your customer.
+              estimate, communication, and fence work while keeping the
+              process simple for you and your customer.
             </p>
           </div>
 
@@ -266,12 +260,23 @@ export default function ReferralsPage() {
                 </li>
               ))}
             </ul>
+
+            <a
+              href="#refer"
+              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-amber-400 px-6 py-3 font-bold text-slate-950 transition hover:bg-amber-300"
+            >
+              Send a Referral
+              <ArrowRight className="h-5 w-5" />
+            </a>
           </div>
         </div>
       </section>
 
       {/* REFERRAL FORM */}
-      <section id="refer" className="bg-slate-950 py-20 text-white">
+      <section
+        id="refer"
+        className="scroll-mt-24 bg-slate-950 py-20 text-white"
+      >
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <div className="text-center">
             <p className="text-sm font-bold uppercase tracking-widest text-amber-400">
@@ -291,7 +296,10 @@ export default function ReferralsPage() {
             onSubmit={handleSubmit}
             className="mt-10 rounded-2xl bg-white p-6 text-slate-900 shadow-xl sm:p-8"
           >
-            <h3 className="text-xl font-bold">Your Information</h3>
+            {/* REFERRER INFORMATION */}
+            <h3 className="text-xl font-bold">
+              Your Information
+            </h3>
 
             <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <div>
@@ -304,8 +312,10 @@ export default function ReferralsPage() {
 
                 <input
                   id="referrerName"
+                  name="referrerName"
                   type="text"
                   required
+                  autoComplete="name"
                   value={referrerName}
                   onChange={(e) => setReferrerName(e.target.value)}
                   className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-200"
@@ -323,6 +333,7 @@ export default function ReferralsPage() {
 
                 <input
                   id="referrerContact"
+                  name="referrerContact"
                   type="text"
                   required
                   value={referrerContact}
@@ -335,7 +346,10 @@ export default function ReferralsPage() {
 
             <div className="my-8 border-t border-slate-200" />
 
-            <h3 className="text-xl font-bold">Who Are You Referring?</h3>
+            {/* CUSTOMER INFORMATION */}
+            <h3 className="text-xl font-bold">
+              Who Are You Referring?
+            </h3>
 
             <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <div>
@@ -348,6 +362,7 @@ export default function ReferralsPage() {
 
                 <input
                   id="customerName"
+                  name="customerName"
                   type="text"
                   required
                   value={customerName}
@@ -367,6 +382,7 @@ export default function ReferralsPage() {
 
                 <input
                   id="customerContact"
+                  name="customerContact"
                   type="text"
                   required
                   value={customerContact}
@@ -377,6 +393,7 @@ export default function ReferralsPage() {
               </div>
             </div>
 
+            {/* NOTES */}
             <div className="mt-5">
               <label
                 htmlFor="notes"
@@ -387,6 +404,7 @@ export default function ReferralsPage() {
 
               <textarea
                 id="notes"
+                name="notes"
                 rows={4}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
@@ -395,6 +413,7 @@ export default function ReferralsPage() {
               />
             </div>
 
+            {/* SUBMIT */}
             <button
               type="submit"
               disabled={loading}
@@ -409,15 +428,31 @@ export default function ReferralsPage() {
                 </>
               )}
             </button>
-            
+
+            {/* SUCCESS */}
             {success && (
-              <div className="mt-5 rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm font-semibold text-green-800">
-                Referral received! Thank you for recommending Winnett Fence.
+              <div
+                role="status"
+                className="mt-5 rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm font-semibold text-green-800"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <CheckCircle2 className="h-5 w-5" />
+                  Referral received!
+                </div>
+
+                <p className="mt-1 font-normal">
+                  Thank you for recommending Winnett Fence. We'll take it from
+                  here.
+                </p>
               </div>
             )}
-            
+
+            {/* ERROR */}
             {error && (
-              <div className="mt-5 rounded-lg border border-red-200 bg-red-50 p-4 text-center text-sm font-semibold text-red-800">
+              <div
+                role="alert"
+                className="mt-5 rounded-lg border border-red-200 bg-red-50 p-4 text-center text-sm font-semibold text-red-800"
+              >
                 {error}
               </div>
             )}
@@ -433,19 +468,21 @@ export default function ReferralsPage() {
       {/* TERMS */}
       <section className="bg-slate-100 py-12">
         <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <h2 className="text-lg font-bold">Referral Program Terms</h2>
+          <h2 className="text-lg font-bold">
+            Referral Program Terms
+          </h2>
 
           <p className="mt-3 text-sm leading-6 text-slate-600">
-            Referral must be a new Winnett Fence customer. The referring person
-            or business must be identified when the customer requests an
-            estimate or through the referral form. A $50 gift card is earned
-            after the referred customer's qualifying project is completed and
-            the final invoice is paid in full. One referral reward is issued
-            per new referred customer. Referral rewards are not available
-            retroactively for existing customers or projects. There is no
-            limit to the number of qualifying new customers you may refer.
-            Winnett Fence reserves the right to modify or discontinue the
-            referral program.
+            Referral must be a new Winnett Fence customer. The referring
+            person or business must be identified when the customer requests
+            an estimate or through the referral form. A $50 gift card is
+            earned after the referred customer's qualifying project is
+            completed and the final invoice is paid in full. One referral
+            reward is issued per new referred customer. Referral rewards are
+            not available retroactively for existing customers or projects.
+            There is no limit to the number of qualifying new customers you
+            may refer. Winnett Fence reserves the right to modify or
+            discontinue the referral program.
           </p>
         </div>
       </section>
