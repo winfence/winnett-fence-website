@@ -18,12 +18,55 @@ export default function ReferralsPage() {
   const [customerContact, setCustomerContact] = useState("");
   const [notes, setNotes] = useState("");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    const subject = encodeURIComponent(
-      `New Winnett Fence Referral - ${customerName}`
-    );
+  
+    setLoading(true);
+    setSuccess(false);
+    setError("");
+  
+    try {
+      const response = await fetch("/api/referral", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          referrerName,
+          referrerContact,
+          customerName,
+          customerContact,
+          notes,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to submit referral.");
+      }
+  
+      setSuccess(true);
+  
+      setReferrerName("");
+      setReferrerContact("");
+      setCustomerName("");
+      setCustomerContact("");
+      setNotes("");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
     const body = encodeURIComponent(
       [
@@ -354,11 +397,30 @@ export default function ReferralsPage() {
 
             <button
               type="submit"
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-amber-400 px-6 py-4 text-base font-bold text-slate-950 transition hover:bg-amber-300"
+              disabled={loading}
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-amber-400 px-6 py-4 text-base font-bold text-slate-950 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Submit Referral
-              <ArrowRight className="h-5 w-5" />
+              {loading ? (
+                "Sending Referral..."
+              ) : (
+                <>
+                  Submit Referral
+                  <ArrowRight className="h-5 w-5" />
+                </>
+              )}
             </button>
+            
+            {success && (
+              <div className="mt-5 rounded-lg border border-green-200 bg-green-50 p-4 text-center text-sm font-semibold text-green-800">
+                Referral received! Thank you for recommending Winnett Fence.
+              </div>
+            )}
+            
+            {error && (
+              <div className="mt-5 rounded-lg border border-red-200 bg-red-50 p-4 text-center text-sm font-semibold text-red-800">
+                {error}
+              </div>
+            )}
 
             <p className="mt-4 text-center text-xs leading-5 text-slate-500">
               Please make sure the person you're referring is comfortable
